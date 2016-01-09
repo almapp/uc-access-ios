@@ -15,12 +15,6 @@ public func request(method: Alamofire.Method, url: String, parameters: [String: 
         Alamofire.request(method, url, parameters: parameters).responseString() { response in
             fulfill(response)
         }
-//            switch response.result {
-//            case .Success(_):
-//                fulfill(response)
-//            case .Failure(_):
-//                reject(response.result.error!)
-//            }
     }
 }
 
