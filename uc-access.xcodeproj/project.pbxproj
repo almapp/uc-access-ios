@@ -17,6 +17,9 @@
 		58424D841C40367F00E652BD /* uc_accessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58424D831C40367F00E652BD /* uc_accessTests.swift */; };
 		589D3A811C4073E6001F3641 /* Siding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D3A801C4073E6001F3641 /* Siding.swift */; };
 		589D3A831C412693001F3641 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D3A821C412693001F3641 /* Requests.swift */; };
+		58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E24EFA1C4158B5009317C2 /* ServiceCell.swift */; };
+		58E24EFD1C418E70009317C2 /* Cookies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E24EFC1C418E70009317C2 /* Cookies.swift */; };
+		58EB15B01C4142F600DB10E0 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EB15AF1C4142F600DB10E0 /* Service.swift */; };
 		C46A16A83526437ACF31EF2F /* Pods_uc_accessTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB4E9AF196E1F9D273996BA /* Pods_uc_accessTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +50,9 @@
 		58424D851C40367F00E652BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		589D3A801C4073E6001F3641 /* Siding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Siding.swift; path = src/services/Siding.swift; sourceTree = "<group>"; };
 		589D3A821C412693001F3641 /* Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Requests.swift; path = src/Requests.swift; sourceTree = "<group>"; };
+		58E24EFA1C4158B5009317C2 /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
+		58E24EFC1C418E70009317C2 /* Cookies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cookies.swift; sourceTree = "<group>"; };
+		58EB15AF1C4142F600DB10E0 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = src/Service.swift; sourceTree = "<group>"; };
 		6AB4E9AF196E1F9D273996BA /* Pods_uc_accessTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uc_accessTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8A10BC36839E25A571E9F3 /* Pods-uc-access.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uc-access.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uc-access/Pods-uc-access.debug.xcconfig"; sourceTree = "<group>"; };
 		D7622CF8DCCEA4F036AEC936 /* Pods_uc_access.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uc_access.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +124,7 @@
 				58424D6C1C40367F00E652BD /* AppDelegate.swift */,
 				58424D6E1C40367F00E652BD /* MasterViewController.swift */,
 				58424D701C40367F00E652BD /* DetailViewController.swift */,
+				58E24EFA1C4158B5009317C2 /* ServiceCell.swift */,
 				589D3A7E1C4073A9001F3641 /* src */,
 				58424D721C40367F00E652BD /* Main.storyboard */,
 				58424D751C40367F00E652BD /* Assets.xcassets */,
@@ -141,6 +148,8 @@
 			children = (
 				589D3A7F1C4073DD001F3641 /* services */,
 				589D3A821C412693001F3641 /* Requests.swift */,
+				58EB15AF1C4142F600DB10E0 /* Service.swift */,
+				58E24EFC1C418E70009317C2 /* Cookies.swift */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -356,8 +365,11 @@
 				58424D711C40367F00E652BD /* DetailViewController.swift in Sources */,
 				589D3A811C4073E6001F3641 /* Siding.swift in Sources */,
 				58424D6F1C40367F00E652BD /* MasterViewController.swift in Sources */,
+				58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */,
 				589D3A831C412693001F3641 /* Requests.swift in Sources */,
+				58E24EFD1C418E70009317C2 /* Cookies.swift in Sources */,
 				58424D6D1C40367F00E652BD /* AppDelegate.swift in Sources */,
+				58EB15B01C4142F600DB10E0 /* Service.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

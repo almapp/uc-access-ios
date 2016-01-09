@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (3.1.4)
+  - DZNWebViewController (3.1)
   - OMGHTTPURLRQ (3.0.2):
     - OMGHTTPURLRQ/RQ (= 3.0.2)
   - OMGHTTPURLRQ/FormURLEncode (3.0.2)
@@ -22,13 +23,15 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
+  - DZNWebViewController
   - PromiseKit (~> 3.0)
 
 SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
+  DZNWebViewController: 77c4fc70a397be476688f5b6a4577727be6d0f88
   OMGHTTPURLRQ: 8376dc887d76a5a7e2a67881dc788f917a2f437c
   PromiseKit: 665540a1eb43156446872dcf49ed7dee6ebbe13b
 
-PODFILE CHECKSUM: f6b322b490587071239b4e61166b516db21b03c6
+PODFILE CHECKSUM: 0a3fa1a8f1dce2e82a22d452474ed9ac0ca3e56e
 
 COCOAPODS: 1.0.0.beta.2
