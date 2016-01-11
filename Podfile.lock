@@ -23,8 +23,17 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
-  - DZNWebViewController
+  - DZNWebViewController (from `https://github.com/mrpatiwi/DZNWebViewController.git`)
   - PromiseKit (~> 3.0)
+
+EXTERNAL SOURCES:
+  DZNWebViewController:
+    :git: https://github.com/mrpatiwi/DZNWebViewController.git
+
+CHECKOUT OPTIONS:
+  DZNWebViewController:
+    :commit: 3569d4d2095a22c82d17d925301c901ee4ef4a91
+    :git: https://github.com/mrpatiwi/DZNWebViewController.git
 
 SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
@@ -32,6 +41,6 @@ SPEC CHECKSUMS:
   OMGHTTPURLRQ: 8376dc887d76a5a7e2a67881dc788f917a2f437c
   PromiseKit: 665540a1eb43156446872dcf49ed7dee6ebbe13b
 
-PODFILE CHECKSUM: 0a3fa1a8f1dce2e82a22d452474ed9ac0ca3e56e
+PODFILE CHECKSUM: 977ef87835e0b16ef6bb8d3cb3ab49605c2901fb
 
 COCOAPODS: 1.0.0.beta.2

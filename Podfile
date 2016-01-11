@@ -8,7 +8,7 @@ target 'uc-access' do
     pod 'PromiseKit', '~> 3.0'
     
     # UI
-    pod 'DZNWebViewController'
+    pod 'DZNWebViewController', git: 'https://github.com/mrpatiwi/DZNWebViewController.git'
 end
 
 target 'uc-accessTests' do
