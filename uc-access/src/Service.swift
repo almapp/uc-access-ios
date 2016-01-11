@@ -15,13 +15,58 @@ public struct URLs {
     let failed: String
 }
 
-public protocol Service {
-    var name: String {get}
-    var cookies: [NSHTTPCookie] {get}
-    var urls: URLs {get}
-    func login() -> Promise<[NSHTTPCookie]>
-    func process(request: NSURLRequest) -> NSURLRequest
-    func validate(request: NSURLRequest) -> Bool
+
+public class Service {
+    var name: String
+    var urls: URLs
+    
+    init(name: String, urls: URLs) {
+        self.name = name
+        self.urls = urls
+    }
+}
+
+public class AuthService: Service {
+    var domain: String?
+    var cookies: [NSHTTPCookie] = []
+
+    var cookiesJS: String {
+        get {
+            if let domain = self.domain {
+                return cookies.map { "document.cookie = '\($0.name)=\($0.value);path=\($0.path);domain=\(domain)';" }.joinWithSeparator(";")
+            } else {
+                return cookies.map { "document.cookie = '\($0.name)=\($0.value);path=\($0.path)';" }.joinWithSeparator(";")
+            }
+        }
+    }
+
+    func login() -> Promise<[NSHTTPCookie]> {
+        return Promise.init([])
+    }
+
+    func request() -> NSURLRequest? {
+        let request = NSMutableURLRequest(URL: NSURL(string: self.urls.logged)!)
+        request.allHTTPHeaderFields = NSHTTPCookie.requestHeaderFieldsWithCookies(self.cookies)
+        return request
+    }
+
+    func validate(request: NSURLRequest) -> Bool {
+        return true
+    }
+    
+    static func hasCookie(key: String, header: [String: String]) -> Bool {
+        if let cookies = header["Cookie"] {
+            for cookie in cookies.componentsSeparatedByString(";") {
+                for pair in cookie.componentsSeparatedByString(",") {
+                    let values = pair.componentsSeparatedByString("=")
+                    if values[0] == key && values[1].characters.count > 0 {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
 }
 
 public func + <K,V>(left: Dictionary<K,V>, right: Dictionary<K,V>) -> Dictionary<K,V> {
