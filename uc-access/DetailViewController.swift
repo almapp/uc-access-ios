@@ -11,17 +11,28 @@ import DZNWebViewController
 
 class DetailViewController: DZNWebViewController {
 
-    var cookies: [NSHTTPCookie]
-    
-    var service: Service? {
-        didSet {
-            self.configureView()
+    var service: Service?
+
+    init(service: Service, configuration: WKWebViewConfiguration? = nil) {
+        if let config = configuration {
+            super.init(URL: NSURL(string: service.urls.basic), configuration: config)
+        } else {
+            super.init(URL: NSURL(string: service.urls.basic))
         }
+        self.service = service
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.cookies = []
         super.init(coder: aDecoder)
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.login()
     }
 
     func request(url: String, cookies: [NSHTTPCookie]) -> NSURLRequest {
@@ -30,46 +41,9 @@ class DetailViewController: DZNWebViewController {
         return request
     }
 
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let service = self.service {
-            service.login().then { cookies -> Void in
-                Cookies.set(cookies)
-                self.webView.stopLoading()
-                self.webView.loadRequest(self.request(service.urls.logged, cookies: cookies))
-            }
-        } else {
-            self.loadURL(NSURL(string: "http://google.cl"))
+    func login() {
+        if let service = self.service as? AuthService {
+            self.webView.loadRequest(self.request(service.urls.logged, cookies: service.cookies))
         }
-    }
-
-    override func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
-        // TODO: reduce complexity
-        if let service = self.service {
-            if service.validate(navigationAction.request) {
-                decisionHandler(WKNavigationActionPolicy.Allow)
-            } else {
-                webView.loadRequest(service.process(navigationAction.request))
-                decisionHandler(WKNavigationActionPolicy.Cancel)
-            }
-        } else {
-            decisionHandler(WKNavigationActionPolicy.Allow)
-        }
-    }
-    
-    func simple(url: String) {
-        let request = NSURLRequest(URL: NSURL(string: url)!)
-        self.webView.loadRequest(request)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.configureView()
-    }
-}
-
-extension DetailViewController: ServiceSelectionDelegate {
-    func serviceSelected(service: Service) {
-        self.service = service
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DZNWebViewController
 
 extension AppDelegate: UISplitViewControllerDelegate {
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
@@ -20,28 +21,55 @@ extension AppDelegate: UISplitViewControllerDelegate {
     }
 }
 
+extension AppDelegate: ServiceSelectionDelegate {
+    func buildConfiguration(service: AuthService) -> WKWebViewConfiguration {
+        let controller = WKUserContentController()
+        let script = WKUserScript(source: service.cookiesJS, injectionTime: WKUserScriptInjectionTime.AtDocumentStart, forMainFrameOnly: false)
+        controller.addUserScript(script)
+        let config = WKWebViewConfiguration()
+        config.userContentController = controller
+        return config
+    }
+
+    func serviceSelected(service: Service) {
+        if let nav = self.rightNavController {
+            if let auth = service as? AuthService {
+                auth.login().then { cookies -> Void in
+                    nav.viewControllers = [DetailViewController.init(service: auth, configuration: self.buildConfiguration(auth))]
+                }
+            } else {
+                nav.viewControllers = [DetailViewController.init(service: service)]
+            }
+        }
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var splitViewController: UISplitViewController?
+    var leftNavController: UINavigationController?
+    var rightNavController: UINavigationController?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        Cookies.activate()
-
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-        let leftNavController = splitViewController.viewControllers.first as! UINavigationController
-        let rightNavController = splitViewController.viewControllers.last as! UINavigationController
-
-        let masterViewController = leftNavController.topViewController as! MasterViewController
-        let detailViewController = rightNavController.topViewController as! DetailViewController
-        masterViewController.delegate = detailViewController
+        self.splitViewController = UISplitViewController.init()
         
-        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
-        splitViewController.delegate = self
-        
-        // let firstService = masterViewController.services.first
-        // detailViewController.service = firstService
+        let masterViewController = self.window?.rootViewController as! MasterViewController
+        let dummy = DZNWebViewController.init(URL: NSURL(string: "http://www.uc.cl"))
+
+        self.leftNavController = UINavigationController.init(rootViewController: masterViewController)
+        self.rightNavController = UINavigationController.init(rootViewController: dummy)
+
+        self.splitViewController!.viewControllers = [self.leftNavController!, self.rightNavController!]
+        self.splitViewController!.delegate = self
+
+        masterViewController.delegate = self
+
+        dummy.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
+
+        self.window?.rootViewController = splitViewController
 
         return true
     }

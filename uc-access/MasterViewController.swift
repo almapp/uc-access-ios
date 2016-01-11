@@ -19,11 +19,12 @@ class MasterViewController: UITableViewController {
     weak var delegate: ServiceSelectionDelegate?
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)! // See "!"
+        super.init(coder: aDecoder)!
 
         // Create services
         self.services = [
             Siding(user: "", password: ""),
+            Labmat(user: "", password: ""),
         ]
     }
 
@@ -31,6 +32,11 @@ class MasterViewController: UITableViewController {
         super.viewDidLoad()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
+        super.viewWillAppear(animated)
+    }
+    
     // MARK: - Table View
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
