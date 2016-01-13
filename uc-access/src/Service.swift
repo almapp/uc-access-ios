@@ -54,6 +54,11 @@ public class AuthService: Service {
         return true
     }
     
+    func addCookies(response: NSHTTPURLResponse) {
+        let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(response.allHeaderFields as! [String: String], forURL: NSURL(string: self.domain!)!)
+        self.cookies.appendContentsOf(cookies)
+    }
+
     static func hasCookie(key: String, header: [String: String]) -> Bool {
         if let cookies = header["Cookie"] {
             for cookie in cookies.componentsSeparatedByString(";") {

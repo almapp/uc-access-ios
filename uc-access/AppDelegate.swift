@@ -9,8 +9,16 @@
 import UIKit
 import DZNWebViewController
 
+enum UIUserInterfaceIdiom : Int {
+    case Unspecified
+    case Phone // iPhone and iPod touch style UI
+    case Pad // iPad style UI
+}
+
 extension AppDelegate: UISplitViewControllerDelegate {
+
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
+        // return true
         guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
         guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
         if topAsDetailController.service == nil {
@@ -19,27 +27,42 @@ extension AppDelegate: UISplitViewControllerDelegate {
         }
         return false
     }
+
+    func splitViewController(svc: UISplitViewController, shouldHideViewController vc: UIViewController, inOrientation orientation: UIInterfaceOrientation) -> Bool {
+        return true
+    }
+
+    func targetDisplayModeForActionInSplitViewController(svc: UISplitViewController) -> UISplitViewControllerDisplayMode {
+        return UISplitViewControllerDisplayMode.Automatic
+    }
 }
 
 extension AppDelegate: ServiceSelectionDelegate {
-    func buildConfiguration(service: AuthService) -> WKWebViewConfiguration {
-        let controller = WKUserContentController()
-        let script = WKUserScript(source: service.cookiesJS, injectionTime: WKUserScriptInjectionTime.AtDocumentStart, forMainFrameOnly: false)
-        controller.addUserScript(script)
-        let config = WKWebViewConfiguration()
-        config.userContentController = controller
-        return config
+    func serviceSelected(service: Service) -> Bool {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.presentServiceOniPad(service)
+            return true
+        } else {
+            // The delegate have to make the transition
+            return false
+        }
     }
 
-    func serviceSelected(service: Service) {
-        if let nav = self.rightNavController {
-            if let auth = service as? AuthService {
-                auth.login().then { cookies -> Void in
-                    nav.viewControllers = [DetailViewController.init(service: auth, configuration: self.buildConfiguration(auth))]
-                }
-            } else {
-                nav.viewControllers = [DetailViewController.init(service: service)]
+    func presentServiceOniPad(service: Service) {
+        if let auth = service as? AuthService {
+            auth.login().then { cookies -> Void in
+                self.presentDetail(DetailViewController.init(service: auth, configuration: BrowserHelper.setup(auth)))
             }
+        } else {
+            self.presentDetail(DetailViewController.init(service: service))
+        }
+    }
+
+    func presentDetail(controller: UIViewController, from: UIViewController? = nil) {
+        if let nav = self.detailController {
+            controller.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
+            controller.navigationItem.leftItemsSupplementBackButton = true
+            nav.viewControllers = [controller]
         }
     }
 }
@@ -49,28 +72,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var splitViewController: UISplitViewController?
-    var leftNavController: UINavigationController?
-    var rightNavController: UINavigationController?
+    var masterController: UITabBarController?
+    var detailController: UINavigationController?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        self.splitViewController = UISplitViewController.init()
-        
-        let masterViewController = self.window?.rootViewController as! MasterViewController
-        let dummy = DZNWebViewController.init(URL: NSURL(string: "http://www.uc.cl"))
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds) // Not root controller yet
 
-        self.leftNavController = UINavigationController.init(rootViewController: masterViewController)
-        self.rightNavController = UINavigationController.init(rootViewController: dummy)
+        // This is shared by both devices
+        self.masterController = storyboard.instantiateViewControllerWithIdentifier("Master") as? UITabBarController
 
-        self.splitViewController!.viewControllers = [self.leftNavController!, self.rightNavController!]
-        self.splitViewController!.delegate = self
-
-        masterViewController.delegate = self
-
-        dummy.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
-
-        self.window?.rootViewController = splitViewController
-
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            // Setup SplitView as root view
+            self.splitViewController = UISplitViewController()
+            self.splitViewController!.delegate = self
+            
+            // Create the detail view
+            self.detailController = UINavigationController()
+            
+            // Add views to split view controller
+            self.splitViewController?.viewControllers = [self.masterController!, self.detailController!]
+            self.window?.rootViewController = self.splitViewController
+            
+            // Present default detail
+            self.presentDetail(DZNWebViewController.init(URL: NSURL(string: "http://www.uc.cl")))
+        } else {
+            // Set the main controller as root view
+            self.window!.rootViewController = self.masterController
+        }
+        self.window!.makeKeyAndVisible()
         return true
     }
 

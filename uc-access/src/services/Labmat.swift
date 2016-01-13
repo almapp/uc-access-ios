@@ -36,13 +36,9 @@ public class Labmat: AuthService {
             "clave": self.password,
         ]
         return Request.GET(self.urls.basic)
-            .then { response -> [NSHTTPCookie] in
-                let headers = response.response?.allHeaderFields as! [String: String]
-                return NSHTTPCookie.cookiesWithResponseHeaderFields(headers, forURL: NSURL(string: self.domain!)!)
-            }
-            .then { cookies -> Promise<Response<String, NSError>> in
-                self.cookies = cookies
-                return Request.POST(Labmat.URL, parameters: params, headers: NSHTTPCookie.requestHeaderFieldsWithCookies(cookies))
+            .then { response -> Promise<Response<String, NSError>> in
+                self.addCookies(response.response!)
+                return Request.POST(Labmat.URL, parameters: params, headers: NSHTTPCookie.requestHeaderFieldsWithCookies(self.cookies))
             }
             .then { response -> [NSHTTPCookie] in
                 return self.cookies

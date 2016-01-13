@@ -38,7 +38,7 @@ public class Siding: AuthService {
         ]
         return Request.POST(Siding.URL, parameters: params)
             .then { response -> [NSHTTPCookie] in
-                self.cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(response.response?.allHeaderFields as! [String: String], forURL: NSURL(string: self.domain!)!)
+                self.addCookies(response.response!)
                 return self.cookies
             }
     }

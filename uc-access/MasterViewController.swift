@@ -10,10 +10,13 @@ import UIKit
 import DZNWebViewController
 
 protocol ServiceSelectionDelegate: class {
-    func serviceSelected(service: Service)
+    func serviceSelected(service: Service) -> Bool
 }
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var currentUserButton: UIBarButtonItem!
 
     var services = [Service]()
     weak var delegate: ServiceSelectionDelegate?
@@ -24,36 +27,64 @@ class MasterViewController: UITableViewController {
         // Create services
         self.services = [
             Siding(user: "", password: ""),
-            Labmat(user: "", password: ""),
+            Labmat(user: "@uc.cl", password: ""),
+            PortalUC(user: "", password: ""),
+            WebCursos(user: "", password: ""),
         ]
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        self.clearsSelectionOnViewWillAppear = self.splitViewController!.collapsed
-        super.viewWillAppear(animated)
+        // Setup delegates
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        // Actions
+        self.currentUserButton.target = self
+        self.currentUserButton.action = Selector("setCurrentUser:")
     }
     
+    // MARK: - Buttons
+    
+    func setCurrentUser(sender: UIBarButtonItem) {
+
+    }
+
     // MARK: - Table View
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.services.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ServiceCell", forIndexPath: indexPath) as! ServiceCell
         cell.service = self.services[indexPath.row]
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate?.serviceSelected(self.services[indexPath.row])
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let service = self.services[indexPath.row]
+        if let delegate = self.delegate where delegate.serviceSelected(service) {
+            // Managed by delegate
+        } else {
+            // This class must take care
+            if let auth = service as? AuthService {
+                auth.login().then { cookies -> Void in
+                    self.push(DetailViewController.init(service: auth, configuration: BrowserHelper.setup(auth)))
+                }
+            } else {
+                self.push(DetailViewController.init(service: service))
+            }
+        }
+    }
+    
+    func push(controller: UIViewController) {
+        controller.hidesBottomBarWhenPushed = true;
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
