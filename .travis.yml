@@ -2,7 +2,7 @@ language: objective-c
 osx_image: xcode7.2
 
 xcode_sdk:
-  - iphonesimulator8.0
+  - iphonesimulator9.2
 
 xcode_workspace: uc-access.xcworkspace
 xcode_scheme: uc-accessTests
