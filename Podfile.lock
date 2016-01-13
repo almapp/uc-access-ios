@@ -2,6 +2,7 @@ PODS:
   - Alamofire (3.1.4)
   - DZNWebViewController (3.1)
   - Kanna (1.0.3)
+  - Kingfisher (1.9.1)
   - OMGHTTPURLRQ (3.0.2):
     - OMGHTTPURLRQ/RQ (= 3.0.2)
   - OMGHTTPURLRQ/FormURLEncode (3.0.2)
@@ -21,29 +22,39 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (3.0.0):
     - PromiseKit/CorePromise
+  - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - DZNWebViewController (from `https://github.com/mrpatiwi/DZNWebViewController.git`)
   - Kanna (~> 1.0.0)
+  - Kingfisher (~> 1.9)
   - PromiseKit (~> 3.0)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
   DZNWebViewController:
     :git: https://github.com/mrpatiwi/DZNWebViewController.git
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 CHECKOUT OPTIONS:
   DZNWebViewController:
     :commit: 3569d4d2095a22c82d17d925301c901ee4ef4a91
     :git: https://github.com/mrpatiwi/DZNWebViewController.git
+  SwiftyJSON:
+    :commit: 929539eb6a3304eaa9153ca44041a78b85bf2ee5
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   DZNWebViewController: 77c4fc70a397be476688f5b6a4577727be6d0f88
   Kanna: 10c7f20762846e808ec5716e4191427bd71bf1c2
+  Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   OMGHTTPURLRQ: 8376dc887d76a5a7e2a67881dc788f917a2f437c
   PromiseKit: 665540a1eb43156446872dcf49ed7dee6ebbe13b
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 7dedd2aae5b9424bdb52034066356dadd4ef11ea
+PODFILE CHECKSUM: 1cc3be6ba1f35cfbe8d64a959e7ea40d0819dec2
 
 COCOAPODS: 1.0.0.beta.2

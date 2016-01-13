@@ -147,6 +147,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="icon" destination="oPP-NY-ubZ" id="Cca-4f-Onm"/>
+                                            <outlet property="information" destination="Xla-6W-OJ8" id="jib-bd-qjS"/>
                                             <outlet property="title" destination="zw3-Qo-zXi" id="gOn-Rq-FyD"/>
                                         </connections>
                                     </tableViewCell>
@@ -161,7 +163,6 @@
                                 <segments>
                                     <segment title="Oficiales"/>
                                     <segment title="Comunidad"/>
-                                    <segment title="Políticos"/>
                                 </segments>
                             </segmentedControl>
                         </subviews>
@@ -181,6 +182,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="currentUserButton" destination="ndd-Pq-wU3" id="606-Hy-NCJ"/>
+                        <outlet property="segmentedControl" destination="ucM-v9-JOe" id="Z9h-Dh-5eI"/>
                         <outlet property="tableView" destination="v3k-vc-eVJ" id="XYb-Za-DAN"/>
                     </connections>
                 </viewController>

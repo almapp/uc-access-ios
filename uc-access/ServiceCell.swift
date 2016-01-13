@@ -7,20 +7,25 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ServiceCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var information: UILabel!
+    @IBOutlet weak var icon: UIImageView!
     
-    var service: Service? {
+    var webpage: WebPage? {
         didSet {
             self.refresh()
         }
     }
     
     func refresh() {
-        if let service = self.service {
-            self.title.text = service.name
+        if let webpage = self.webpage {
+            self.title.text = webpage.name
+            self.information.text = webpage.description
+            self.icon.kf_setImageWithURL(NSURL(string: webpage.imageURL)!)
         }
     }
 }

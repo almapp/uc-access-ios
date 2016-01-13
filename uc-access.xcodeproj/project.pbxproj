@@ -18,6 +18,7 @@
 		589D3A811C4073E6001F3641 /* Siding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D3A801C4073E6001F3641 /* Siding.swift */; };
 		589D3A831C412693001F3641 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D3A821C412693001F3641 /* Requests.swift */; };
 		58B1F7851C468018004DB11F /* BrowserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B1F7841C468018004DB11F /* BrowserHelper.swift */; };
+		58B1F7871C46A0CF004DB11F /* WebPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B1F7861C46A0CF004DB11F /* WebPage.swift */; };
 		58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E24EFA1C4158B5009317C2 /* ServiceCell.swift */; };
 		58E24EFF1C419C33009317C2 /* Labmat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E24EFE1C419C33009317C2 /* Labmat.swift */; };
 		58E7CA561C43E01A00A7279B /* CAS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E7CA551C43E01A00A7279B /* CAS.swift */; };
@@ -55,6 +56,7 @@
 		589D3A801C4073E6001F3641 /* Siding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Siding.swift; path = src/services/Siding.swift; sourceTree = "<group>"; };
 		589D3A821C412693001F3641 /* Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Requests.swift; path = src/Requests.swift; sourceTree = "<group>"; };
 		58B1F7841C468018004DB11F /* BrowserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrowserHelper.swift; path = src/BrowserHelper.swift; sourceTree = "<group>"; };
+		58B1F7861C46A0CF004DB11F /* WebPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPage.swift; path = src/WebPage.swift; sourceTree = "<group>"; };
 		58E24EFA1C4158B5009317C2 /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
 		58E24EFE1C419C33009317C2 /* Labmat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Labmat.swift; path = src/services/Labmat.swift; sourceTree = "<group>"; };
 		58E7CA551C43E01A00A7279B /* CAS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CAS.swift; path = src/services/CAS.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				589D3A7F1C4073DD001F3641 /* services */,
 				589D3A821C412693001F3641 /* Requests.swift */,
 				58EB15AF1C4142F600DB10E0 /* Service.swift */,
+				58B1F7861C46A0CF004DB11F /* WebPage.swift */,
 				58B1F7841C468018004DB11F /* BrowserHelper.swift */,
 			);
 			name = src;
@@ -379,6 +382,7 @@
 				58B1F7851C468018004DB11F /* BrowserHelper.swift in Sources */,
 				58424D6F1C40367F00E652BD /* MasterViewController.swift in Sources */,
 				58E7CA561C43E01A00A7279B /* CAS.swift in Sources */,
+				58B1F7871C46A0CF004DB11F /* WebPage.swift in Sources */,
 				58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */,
 				58E7CA5A1C43F5F700A7279B /* WebCursos.swift in Sources */,
 				589D3A831C412693001F3641 /* Requests.swift in Sources */,
