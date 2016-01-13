@@ -5,4 +5,4 @@ xcode_sdk:
   - iphonesimulator9.2
 
 xcode_workspace: uc-access.xcworkspace
-xcode_scheme: uc-accessTests
+xcode_scheme: uc-access
