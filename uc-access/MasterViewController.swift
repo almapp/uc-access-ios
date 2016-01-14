@@ -10,6 +10,7 @@ import UIKit
 import PromiseKit
 import DZNWebViewController
 import Refresher
+import DZNEmptyDataSet
 
 protocol WebPagePresenter: class {
     func shouldPresent(webpage: WebPage) -> Bool
@@ -26,7 +27,7 @@ extension UISegmentedControl {
     }
 }
 
-class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentUserButton: UIBarButtonItem!
@@ -78,10 +79,15 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Setup delegates
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.delegate = AppDelegate.instance
+        
+        // Empty table
+        self.tableView.emptyDataSetSource = self;
+        self.tableView.emptyDataSetDelegate = self;
 
         // Editing
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -92,11 +98,15 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.currentUserButton.target = self
         self.currentUserButton.action = Selector("setCurrentUser:")
         self.segmentedControl.addTarget(self, action: "onSegmentChange:", forControlEvents: .ValueChanged)
-        
+
         // Pull to refresh
+        self.segmentedControl.alpha = 0;
         self.tableView.addPullToRefreshWithAction {
-            self.fetch().then {
+            self.fetch().then { _ -> Void in
                 self.tableView.stopPullToRefresh()
+                if self.segmentedControl.alpha == 0 {
+                    UIView.animateWithDuration(0.3, animations: { self.segmentedControl.alpha = 1 })
+                }
             }
         }
         self.tableView.startPullToRefresh()
@@ -281,5 +291,11 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
+    }
+    
+    // MARK: - Empty Table View
+    
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "Actualizando...")
     }
 }

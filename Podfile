@@ -15,6 +15,7 @@ target 'uc-access' do
     pod 'Kingfisher', '~> 1.9'
     pod 'Refresher'
     pod 'Static', git: 'https://github.com/venmo/Static'
+    pod 'DZNEmptyDataSet'
 end
 
 target 'uc-accessTests' do

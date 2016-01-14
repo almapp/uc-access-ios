@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import PromiseKit
+import DZNEmptyDataSet
 
-class UsersViewController: UITableViewController {
+class UsersViewController: UITableViewController, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     @IBOutlet weak var addButton: UIBarButtonItem!
     
     var users: [User] {
@@ -24,14 +25,26 @@ class UsersViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Empty table
+        self.tableView.emptyDataSetSource = self;
+        self.tableView.emptyDataSetDelegate = self;
+        
+        // Actions
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.addButton.target = self
-        self.addButton.action = Selector("addUser:")
+        self.addButton.action = Selector("addUserButtonPress:")
+        
+        // Setup table
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "BasicCell")
         self.tableView.allowsMultipleSelectionDuringEditing = false;
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
 
-    func addUser(sender: UIBarButtonItem) {
+    func addUserButtonPress(sender: UIBarButtonItem) {
+        self.addUser()
+    }
+    
+    func addUser() {
         self.presentViewController(UsersViewController.addUserController() { user in
             self.users.forEach { $0.selected = false }
             self.users.append(user)
@@ -78,7 +91,7 @@ class UsersViewController: UITableViewController {
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return self.users.count > 0 ? 1 : 0
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -117,5 +130,15 @@ class UsersViewController: UITableViewController {
         cell.textLabel?.text = self.users[indexPath.row].username
         cell.selectionStyle = .None
         return cell
+    }
+    
+    // MARK: - Empty Table View
+    
+    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "¿Todavía no pones tu cuenta?")
+    }
+    
+    func emptyDataSetDidTapView(scrollView: UIScrollView!) {
+        self.addUser()
     }
 }
