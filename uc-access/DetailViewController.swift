@@ -12,14 +12,26 @@ import DZNWebViewController
 class DetailViewController: DZNWebViewController {
 
     var service: Service?
+    var webpage: WebPage?
 
-    init(service: Service, configuration: WKWebViewConfiguration? = nil) {
-        if let config = configuration {
-            super.init(URL: NSURL(string: service.urls.basic), configuration: config)
-        } else {
-            super.init(URL: NSURL(string: service.urls.basic))
-        }
+    init(service: Service, configuration: WKWebViewConfiguration) {
+        super.init(URL: NSURL(string: service.urls.basic), configuration: configuration)
+        self.setup()
         self.service = service
+    }
+
+    init(webpage: WebPage) {
+        super.init(URL: NSURL(string: webpage.URL))
+        self.setup()
+        self.webpage = webpage
+    }
+
+    func setup() {
+        self.supportedWebNavigationTools = .All
+        self.supportedWebActions = .DZNWebActionAll
+        self.showLoadingProgress = true
+        self.allowHistory = true
+        self.hideBarsWithGestures = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -35,15 +47,17 @@ class DetailViewController: DZNWebViewController {
         self.login()
     }
 
-    func request(url: String, cookies: [NSHTTPCookie]) -> NSURLRequest {
+    func request(url: String, cookies: [NSHTTPCookie] = []) -> NSURLRequest {
         let request = NSMutableURLRequest(URL: NSURL(string: url)!)
         request.allHTTPHeaderFields = NSHTTPCookie.requestHeaderFieldsWithCookies(cookies)
         return request
     }
 
     func login() {
-        if let service = self.service as? AuthService {
+        if let service = self.service {
             self.webView.loadRequest(self.request(service.urls.logged, cookies: service.cookies))
+        } else if let webpage = self.webpage {
+            self.webView.loadRequest(self.request(webpage.URL))
         }
     }
 }

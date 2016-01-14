@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-public class Siding: AuthService {
+public class Siding: Service {
     private static let URL = "https://intrawww.ing.puc.cl/siding/index.phtml"
 
     private let user: String
@@ -45,7 +45,7 @@ public class Siding: AuthService {
 
     override func validate(request: NSURLRequest) -> Bool {
         if let headers = request.allHTTPHeaderFields {
-            return AuthService.hasCookie("PHPSESSID", header: headers)
+            return Service.hasCookie("PHPSESSID", header: headers)
         } else {
             return false
         }

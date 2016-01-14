@@ -10,7 +10,7 @@ import Foundation
 import WebKit
 
 class BrowserHelper {
-    static func setup(service: AuthService) -> WKWebViewConfiguration {
+    static func setup(service: Service) -> WKWebViewConfiguration {
         let controller = WKUserContentController()
         let script = WKUserScript(source: service.cookiesJS, injectionTime: WKUserScriptInjectionTime.AtDocumentStart, forMainFrameOnly: false)
         controller.addUserScript(script)

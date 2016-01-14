@@ -15,21 +15,17 @@ public struct URLs {
     let failed: String
 }
 
-
 public class Service {
     var name: String
     var urls: URLs
-    
+    var domain: String?
+    var cookies: [NSHTTPCookie] = []
+
     init(name: String, urls: URLs) {
         self.name = name
         self.urls = urls
     }
-}
-
-public class AuthService: Service {
-    var domain: String?
-    var cookies: [NSHTTPCookie] = []
-
+    
     var cookiesJS: String {
         get {
             if let domain = self.domain {

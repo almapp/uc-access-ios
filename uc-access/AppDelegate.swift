@@ -37,24 +37,29 @@ extension AppDelegate: UISplitViewControllerDelegate {
     }
 }
 
-extension AppDelegate: ServiceSelectionDelegate {
-    func serviceSelected(service: Service) -> Bool {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            self.presentServiceOniPad(service)
-            return true
-        } else {
-            // The delegate have to make the transition
-            return false
-        }
+extension AppDelegate: WebPagePresenter {
+    
+    func shouldPresent(webpage: WebPage) -> Bool {
+        // This will take care of the operation if this is running on a iPad
+        return UIDevice.currentDevice().userInterfaceIdiom == .Pad
     }
-
-    func presentServiceOniPad(service: Service) {
-        if let auth = service as? AuthService {
-            auth.login().then { cookies -> Void in
-                self.presentDetail(DetailViewController.init(service: auth, configuration: BrowserHelper.setup(auth)))
+    
+    func present(webpage: WebPage) {
+        if let id = webpage.id, service = self.services?[id] {
+            service.login().then { cookies -> Void in
+                self.presentDetail(DetailViewController.init(service: service, configuration: BrowserHelper.setup(service)))
             }
         } else {
-            self.presentDetail(DetailViewController.init(service: service))
+            // Normal webpage
+            self.presentDetail(DetailViewController.init(webpage: webpage))
+        }
+    }
+    
+    func provideServiceFor(webpage: WebPage) -> Service? {
+        if let id = webpage.id, service = self.services?[id] {
+            return service
+        } else {
+            return nil
         }
     }
 
@@ -74,7 +79,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var splitViewController: UISplitViewController?
     var masterController: UITabBarController?
     var detailController: UINavigationController?
-
+    
+    var services: [String: Service]?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

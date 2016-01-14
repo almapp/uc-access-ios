@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import PromiseKit
 import DZNWebViewController
+import Refresher
 
-protocol ServiceSelectionDelegate: class {
-    func serviceSelected(service: Service) -> Bool
+protocol WebPagePresenter: class {
+    func shouldPresent(webpage: WebPage) -> Bool
+    func present(webpage: WebPage)
+    func provideServiceFor(webpage: WebPage) -> Service?
 }
 
 extension UISegmentedControl {
@@ -30,7 +34,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     var groups: [WebPageGroup]
     var fetcher: WebPageFetcher
-    weak var delegate: ServiceSelectionDelegate?
+    weak var delegate: WebPagePresenter?
     
     var index: Int {
         get {
@@ -65,17 +69,39 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.dataSource = self
         self.delegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
+        // Editing
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        self.tableView.allowsSelectionDuringEditing = true
+        self.tableView.allowsSelection = true
+
         // Actions
         self.currentUserButton.target = self
         self.currentUserButton.action = Selector("setCurrentUser:")
         self.segmentedControl.addTarget(self, action: "onSegmentChange:", forControlEvents: .ValueChanged)
         
-        // Fetch data
-        self.fetcher.fetch().then { groups -> Void in
+        // Pull to refresh
+        self.tableView.addPullToRefreshWithAction {
+            self.fetch().then {
+                self.tableView.stopPullToRefresh()
+            }
+        }
+        self.tableView.startPullToRefresh()
+    }
+
+    func fetch() -> Promise<Void> {
+        return self.fetcher.fetch().then { groups -> Void in
+            let current = self.index
             self.groups = groups
             self.segmentedControl.setSegments(groups.map { $0.name })
-            self.index = 0
+            self.index = (current < 0) ? 0 : current // this eventually calls 'self.tableView.reloadData()'
         }
+    }
+    
+    func push(controller: UIViewController) {
+        // let nav = UINavigationController(rootViewController: controller)
+        controller.hidesBottomBarWhenPushed = true;
+        // self.presentViewController(nav, animated: true, completion: nil)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     // MARK: - Buttons
@@ -87,42 +113,103 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func onSegmentChange(sender: UISegmentedControl) {
         self.tableView.reloadData()
     }
+    
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            // Enter
+        } else {
+            // Exit
+        }
+        self.tableView.setEditing(editing, animated: true)
+        self.tableView.reloadData()
+    }
 
     // MARK: - Table View
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.group?.categories.count ?? 0
+        if tableView.editing {
+            return self.group?.categories.count ?? 0
+        } else {
+            return self.group?.activeCategories.count ?? 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if tableView.editing {
+            return self.group?.categories[section].name
+        } else {
+            return self.group?.activeCategories[section].name
+        }
+    }
+    
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if tableView.editing {
+            return self.group?.categories[section].detail
+        } else {
+            return self.group?.activeCategories[section].detail
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.group?.categories[section].services.count ?? 0
+        if tableView.editing {
+            return self.group?.categories[section].services.count ?? 0
+        } else {
+            return self.group?.activeCategories[section].activeServices.count ?? 0
+        }
+    }
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
+    }
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.None
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // Get cell
         let cell = tableView.dequeueReusableCellWithIdentifier("ServiceCell", forIndexPath: indexPath) as! ServiceCell
-        let webpage = self.group!.categories[indexPath.section].services[indexPath.row]
-        cell.webpage = webpage
+
+        // Load webpage
+        if tableView.editing {
+            cell.webpage = self.group!.categories[indexPath.section].services[indexPath.row]
+        } else {
+            cell.webpage = self.group!.activeCategories[indexPath.section].activeServices[indexPath.row]
+        }
+        cell.editingAccessoryType = (cell.webpage!.selected) ? .Checkmark : .None
         return cell
     }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let service = self.services[indexPath.row]
-//        if let delegate = self.delegate where delegate.serviceSelected(service) {
-//            // Managed by delegate
-//        } else {
-//            // This class must take care
-//            if let auth = service as? AuthService {
-//                auth.login().then { cookies -> Void in
-//                    self.push(DetailViewController.init(service: auth, configuration: BrowserHelper.setup(auth)))
-//                }
-//            } else {
-//                self.push(DetailViewController.init(service: service))
-//            }
-//        }
-    }
     
-    func push(controller: UIViewController) {
-        controller.hidesBottomBarWhenPushed = true;
-        self.navigationController?.pushViewController(controller, animated: true)
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ServiceCell, webpage = cell.webpage {
+            if tableView.editing {
+                webpage.selected = !webpage.selected
+                tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            } else if let delegate = self.delegate {
+                if delegate.shouldPresent(webpage) {
+                    // Managed by delegate
+                    delegate.present(webpage)
+                } else if let service = delegate.provideServiceFor(webpage) {
+                    // This class must take care
+                    service.login().then { cookies -> Void in
+                        self.push(DetailViewController(service: service, configuration: BrowserHelper.setup(service)))
+                    }
+                } else {
+                    // It's a normal webpage
+                    self.push(DetailViewController(webpage: webpage))
+                }
+            }
+        }
     }
 }

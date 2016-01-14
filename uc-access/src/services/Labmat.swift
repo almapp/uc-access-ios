@@ -11,7 +11,7 @@ import Alamofire
 import PromiseKit
 
 
-public class Labmat: AuthService {
+public class Labmat: Service {
     private static let URL = "http://www.labmat.puc.cl/index.php"
     
     private let user: String
@@ -47,7 +47,7 @@ public class Labmat: AuthService {
     
     override func validate(request: NSURLRequest) -> Bool {
         if let headers = request.allHTTPHeaderFields {
-            return AuthService.hasCookie("LABMAT_USUARIO", header: headers)
+            return Service.hasCookie("LABMAT_USUARIO", header: headers)
         } else {
             return false
         }

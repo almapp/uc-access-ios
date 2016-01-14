@@ -15,7 +15,7 @@ enum Error: ErrorType {
     case CouldNotLogin()
 }
 
-public class CAS: AuthService {
+public class CAS: Service {
     private static let URL = "https://sso.uc.cl/cas/login"
 
     private let user: String
@@ -62,7 +62,7 @@ public class CAS: AuthService {
 
     override func validate(request: NSURLRequest) -> Bool {
         if let headers = request.allHTTPHeaderFields {
-            return AuthService.hasCookie("JSESSIONID", header: headers)
+            return Service.hasCookie("JSESSIONID", header: headers)
         } else {
             return false
         }

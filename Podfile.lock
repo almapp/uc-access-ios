@@ -22,6 +22,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (3.0.0):
     - PromiseKit/CorePromise
+  - Refresher (0.5.0)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -30,6 +31,7 @@ DEPENDENCIES:
   - Kanna (~> 1.0.0)
   - Kingfisher (~> 1.9)
   - PromiseKit (~> 3.0)
+  - Refresher
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
@@ -53,8 +55,9 @@ SPEC CHECKSUMS:
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   OMGHTTPURLRQ: 8376dc887d76a5a7e2a67881dc788f917a2f437c
   PromiseKit: 665540a1eb43156446872dcf49ed7dee6ebbe13b
+  Refresher: 485f5990e6315add7f3470db5a4ca106451b11d3
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 92fade9d9616c25ad760c2f29d597ac457ed9c44
+PODFILE CHECKSUM: 79260142237ffe87b1fb8c49be0526f1499c2f22
 
 COCOAPODS: 1.0.0.beta.2

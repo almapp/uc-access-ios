@@ -100,19 +100,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v3k-vc-eVJ">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="v3k-vc-eVJ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="Smk-wE-tgh">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ucM-v9-JOe">
+                                            <rect key="frame" x="8" y="8" width="584" height="29"/>
+                                            <segments>
+                                                <segment title="Oficiales"/>
+                                                <segment title="Comunidad"/>
+                                            </segments>
+                                        </segmentedControl>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="ucM-v9-JOe" secondAttribute="trailing" constant="8" id="12y-Os-0Qt"/>
+                                        <constraint firstAttribute="bottom" secondItem="ucM-v9-JOe" secondAttribute="bottom" constant="8" id="O3u-vz-y1R"/>
+                                        <constraint firstItem="ucM-v9-JOe" firstAttribute="leading" secondItem="Smk-wE-tgh" secondAttribute="leading" constant="8" id="Xt1-ta-2vi"/>
+                                        <constraint firstItem="ucM-v9-JOe" firstAttribute="top" secondItem="Smk-wE-tgh" secondAttribute="top" constant="8" id="bIM-b2-jOn"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ServiceCell" rowHeight="84" id="0xV-Qx-2yc" customClass="ServiceCell" customModule="uc_access" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="84"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ServiceCell" rowHeight="84" id="0xV-Qx-2yc" customClass="ServiceCell" customModule="uc_access" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="93.5" width="600" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0xV-Qx-2yc" id="DhF-l7-3Rk">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="83.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zw3-Qo-zXi">
-                                                    <rect key="frame" x="81" y="14" width="481" height="19.5"/>
+                                                    <rect key="frame" x="81" y="14" width="481" height="20"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -127,7 +146,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xla-6W-OJ8">
-                                                    <rect key="frame" x="81" y="35" width="481" height="26.5"/>
+                                                    <rect key="frame" x="81" y="35" width="481" height="27"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <string key="text">Qui ut wisi vocibus suscipiantur, quo dicit ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit definiebas an eos.</string>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
@@ -158,27 +177,17 @@
                                     <outlet property="delegate" destination="m3A-88-pFx" id="VFG-kJ-KcF"/>
                                 </connections>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ucM-v9-JOe">
-                                <rect key="frame" x="20" y="72" width="560" height="29"/>
-                                <segments>
-                                    <segment title="Oficiales"/>
-                                    <segment title="Comunidad"/>
-                                </segments>
-                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="v3k-vc-eVJ" secondAttribute="trailing" constant="-20" id="FvO-Yu-rgd"/>
-                            <constraint firstItem="v3k-vc-eVJ" firstAttribute="leading" secondItem="8og-wL-jUK" secondAttribute="leadingMargin" constant="-20" id="S7C-Yc-j6S"/>
-                            <constraint firstItem="v3k-vc-eVJ" firstAttribute="bottom" secondItem="8og-wL-jUK" secondAttribute="bottomMargin" id="WjC-Ko-WFz"/>
-                            <constraint firstItem="ucM-v9-JOe" firstAttribute="top" secondItem="rai-E8-lN3" secondAttribute="bottom" constant="8" id="cZd-3z-Z0q"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ucM-v9-JOe" secondAttribute="trailing" id="iJm-JH-5PA"/>
-                            <constraint firstItem="v3k-vc-eVJ" firstAttribute="top" secondItem="ucM-v9-JOe" secondAttribute="bottom" constant="8" id="k2j-Px-EfE"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="ucM-v9-JOe" secondAttribute="leading" id="q2d-Ra-va3"/>
+                            <constraint firstAttribute="trailing" secondItem="v3k-vc-eVJ" secondAttribute="trailing" id="G3y-ZM-wRE"/>
+                            <constraint firstItem="v3k-vc-eVJ" firstAttribute="top" secondItem="rai-E8-lN3" secondAttribute="bottom" id="H09-6A-x40"/>
+                            <constraint firstItem="v3k-vc-eVJ" firstAttribute="leading" secondItem="8og-wL-jUK" secondAttribute="leading" id="kN0-wa-eIv"/>
+                            <constraint firstItem="OUj-dc-Ecc" firstAttribute="top" secondItem="v3k-vc-eVJ" secondAttribute="bottom" id="kdf-1c-kch"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Páginas" id="TFs-ie-Qi2">
-                        <barButtonItem key="leftBarButtonItem" title="pelopez2" id="ndd-Pq-wU3"/>
+                        <barButtonItem key="rightBarButtonItem" title="pelopez2" id="ndd-Pq-wU3"/>
                     </navigationItem>
                     <connections>
                         <outlet property="currentUserButton" destination="ndd-Pq-wU3" id="606-Hy-NCJ"/>
