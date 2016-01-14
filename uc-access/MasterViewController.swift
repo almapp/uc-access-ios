@@ -169,12 +169,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.updateCurrentUser()
         }
         actionSheetController.addAction(noneAction)
-        
-//        if let presenter = actionSheetController.popoverPresentationController, view = sender {
-//            presenter.sourceView = view;
-//            presenter.sourceRect = view.bounds;
-//        }
-        
+
         if let presentator = actionSheetController.popoverPresentationController, view = sender {
             presentator.barButtonItem = view
             presentator.permittedArrowDirections = .Any

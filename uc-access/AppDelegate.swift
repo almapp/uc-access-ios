@@ -62,6 +62,8 @@ extension AppDelegate: WebPagePresenter {
             controller.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
             nav.viewControllers = [controller]
+
+            // Collapse master view
             UIApplication.sharedApplication().sendAction(controller.navigationItem.leftBarButtonItem!.action, to: controller.navigationItem.leftBarButtonItem!.target, from: nil, forEvent: nil)
         }
     }
@@ -86,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var users: [User] = []
     
-    // Sugar getter
+    // Sugar getters
     static var instance: AppDelegate {
         get {
             return UIApplication.sharedApplication().delegate as! AppDelegate
@@ -121,19 +123,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             // Setup SplitView as root view
             self.splitViewController = UISplitViewController()
-            self.splitViewController!.delegate = self
             
             // Create the detail view
             self.detailController = UINavigationController()
             
             // Add views to split view controller
             self.splitViewController?.viewControllers = [self.masterController!, self.detailController!]
+            
+            // Delegate
+            self.splitViewController!.delegate = self
+            
             self.window?.rootViewController = self.splitViewController
             
             // Present default detail
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-                self.iPadPresent(DZNWebViewController.init(URL: NSURL(string: "http://www.uc.cl")))
-            }
+            self.iPadPresent(DetailViewController.init(webpage: WebPage(id: nil, name: "", description: "", URL: "http://www.uc.cl", imageURL: "")))
         } else {
             // Set the main controller as root view
             self.window!.rootViewController = self.masterController
