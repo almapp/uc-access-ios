@@ -55,6 +55,20 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
+    var user: User? {
+        get {
+            return AppDelegate.instance.users.filter { $0.selected }.first ?? AppDelegate.instance.users.first
+        }
+        set (value) {
+            if let current = value {
+                AppDelegate.instance.users.filter { $0.username != current.username }.forEach { $0.selected = false }
+                current.selected = true
+            } else {
+                AppDelegate.instance.users.forEach { $0.selected = false }
+            }
+        }
+    }
 
     required init(coder aDecoder: NSCoder) {
         self.fetcher = WebPageFetcher(URL: "https://almapp.github.io/uc-access/services.json")
@@ -67,8 +81,8 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Setup delegates
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.delegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
+        self.delegate = AppDelegate.instance
+
         // Editing
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.tableView.allowsSelectionDuringEditing = true
@@ -86,6 +100,26 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
         self.tableView.startPullToRefresh()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateCurrentUser()
+    }
+    
+    func updateCurrentUser() {
+        if let user = self.user {
+            if user.selected {
+                // Active
+                self.currentUserButton.title = user.username
+            } else {
+                // No account selected
+                self.currentUserButton.title = "Seleccionar cuenta"
+            }
+        } else {
+            // No available accounts
+            self.currentUserButton.title = "Iniciar sesión"
+        }
     }
 
     func fetch() -> Promise<Void> {
@@ -107,6 +141,42 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Buttons
     
     func setCurrentUser(sender: UIBarButtonItem) {
+        if let user = self.user {
+            self.selectUser(user, options: AppDelegate.instance.users)
+        } else {
+            self.createNewUser()
+        }
+    }
+    
+    func selectUser(current: User, options: [User]) {
+        let actionSheetController: UIAlertController = UIAlertController(title: "Selecciona cuenta", message: "¿Con cuál quieres iniciar sesión?", preferredStyle: .ActionSheet)
+        
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { (_) in }
+        actionSheetController.addAction(cancelAction)
+        
+        options.forEach { user in
+            let action = UIAlertAction(title: user.username, style: .Default) { action -> Void in
+                self.user = user
+                self.updateCurrentUser()
+            }
+            actionSheetController.addAction(action)
+        }
+
+        let noneAction: UIAlertAction = UIAlertAction(title: "Ninguno", style: .Destructive) { (_) in
+            self.user = nil
+            self.updateCurrentUser()
+        }
+        actionSheetController.addAction(noneAction)
+        
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+    }
+    
+    func createNewUser() {
+        self.presentViewController(UsersViewController.addUserController() { user in
+            AppDelegate.instance.users.forEach { $0.selected = false }
+            AppDelegate.instance.users.append(user)
+            self.updateCurrentUser()
+            }, animated: true, completion: nil)
 
     }
 

@@ -45,7 +45,7 @@ extension AppDelegate: WebPagePresenter {
     }
     
     func present(webpage: WebPage) {
-        if let id = webpage.id, service = self.services?[id] {
+        if let id = webpage.id, service = self.services[id] {
             service.login().then { cookies -> Void in
                 self.presentDetail(DetailViewController.init(service: service, configuration: BrowserHelper.setup(service)))
             }
@@ -56,7 +56,7 @@ extension AppDelegate: WebPagePresenter {
     }
     
     func provideServiceFor(webpage: WebPage) -> Service? {
-        if let id = webpage.id, service = self.services?[id] {
+        if let id = webpage.id, service = self.services[id] {
             return service
         } else {
             return nil
@@ -80,9 +80,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var masterController: UITabBarController?
     var detailController: UINavigationController?
     
-    var services: [String: Service]?
+    var services: [String: Service] = [:]
+    var users: [User] = []
+    
+    // Sugar getter
+    static var instance: AppDelegate {
+        get {
+            return UIApplication.sharedApplication().delegate as! AppDelegate
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        // Setup data
+        self.users = User.loadAll()
+
+        // Setup views
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds) // Not root controller yet
 
@@ -117,8 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        User.save(self.users)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
