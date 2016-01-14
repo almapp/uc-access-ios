@@ -8,7 +8,9 @@
 
 import Foundation
 
-class PortalUC: CAS {
+public class PortalUC: CAS {
+    public static let ID = "PORTALUC"
+
     init(user: String, password: String) {
         let url = "https://portal.uc.cl"
         super.init(user: user, password: password, name: "Portal UC", urls: URLs(

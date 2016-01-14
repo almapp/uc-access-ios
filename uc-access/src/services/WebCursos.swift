@@ -9,7 +9,9 @@
 import Foundation
 import PromiseKit
 
-class WebCursos: CAS {
+public class WebCursos: CAS {
+    public static let ID = "WEBCURSOS"
+
     init(user: String, password: String) {
         let url = "http://webcurso.uc.cl/portal"
         super.init(user: user, password: password, name: "Web Cursos UC", urls: URLs(

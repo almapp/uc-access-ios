@@ -13,9 +13,7 @@ import Refresher
 import DZNEmptyDataSet
 
 protocol WebPagePresenter: class {
-    func shouldPresent(webpage: WebPage) -> Bool
-    func present(webpage: WebPage)
-    func provideServiceFor(webpage: WebPage) -> Service?
+    func present(webpage: WebPage, withUser: User?)
 }
 
 extension UISegmentedControl {
@@ -140,26 +138,20 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.index = (current < 0) ? 0 : current // this eventually calls 'self.tableView.reloadData()'
         }
     }
-    
-    func push(controller: UIViewController) {
-        // let nav = UINavigationController(rootViewController: controller)
-        controller.hidesBottomBarWhenPushed = true;
-        // self.presentViewController(nav, animated: true, completion: nil)
-        self.navigationController?.pushViewController(controller, animated: true)
-    }
 
     // MARK: - Buttons
     
     func setCurrentUser(sender: UIBarButtonItem) {
         if let user = self.user {
-            self.selectUser(user, options: AppDelegate.instance.users)
+            self.selectUser(user, options: AppDelegate.instance.users, sender: sender)
         } else {
             self.createNewUser()
         }
     }
-    
-    func selectUser(current: User, options: [User]) {
+
+    func selectUser(current: User, options: [User], sender: UIBarButtonItem? = nil) {
         let actionSheetController: UIAlertController = UIAlertController(title: "Selecciona cuenta", message: "¿Con cuál quieres iniciar sesión?", preferredStyle: .ActionSheet)
+        actionSheetController.modalPresentationStyle = .Popover
         
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .Cancel) { (_) in }
         actionSheetController.addAction(cancelAction)
@@ -177,6 +169,17 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.updateCurrentUser()
         }
         actionSheetController.addAction(noneAction)
+        
+//        if let presenter = actionSheetController.popoverPresentationController, view = sender {
+//            presenter.sourceView = view;
+//            presenter.sourceRect = view.bounds;
+//        }
+        
+        if let presentator = actionSheetController.popoverPresentationController, view = sender {
+            presentator.barButtonItem = view
+            presentator.permittedArrowDirections = .Any
+            presentator.sourceView = self.view
+        }
         
         self.presentViewController(actionSheetController, animated: true, completion: nil)
     }
@@ -277,22 +280,11 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 webpage.selected = !webpage.selected
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             } else if let delegate = self.delegate {
-                if delegate.shouldPresent(webpage) {
-                    // Managed by delegate
-                    delegate.present(webpage)
-                } else if let service = delegate.provideServiceFor(webpage) {
-                    // This class must take care
-                    service.login().then { cookies -> Void in
-                        self.push(DetailViewController(service: service, configuration: BrowserHelper.setup(service)))
-                    }
-                } else {
-                    // It's a normal webpage
-                    self.push(DetailViewController(webpage: webpage))
-                }
+                delegate.present(webpage, withUser: self.user)
             }
         }
     }
-    
+
     // MARK: - Empty Table View
     
     func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {

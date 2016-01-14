@@ -12,6 +12,7 @@ import PromiseKit
 
 
 public class Labmat: Service {
+    public static let ID = "LABMAT"
     private static let URL = "http://www.labmat.puc.cl/index.php"
     
     private let user: String

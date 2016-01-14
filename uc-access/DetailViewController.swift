@@ -60,4 +60,8 @@ class DetailViewController: DZNWebViewController {
             self.webView.loadRequest(self.request(webpage.URL))
         }
     }
+    
+    func dismiss(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 }

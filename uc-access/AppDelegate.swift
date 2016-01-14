@@ -18,7 +18,6 @@ enum UIUserInterfaceIdiom : Int {
 extension AppDelegate: UISplitViewControllerDelegate {
 
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        // return true
         guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
         guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
         if topAsDetailController.service == nil {
@@ -38,14 +37,9 @@ extension AppDelegate: UISplitViewControllerDelegate {
 }
 
 extension AppDelegate: WebPagePresenter {
-    
-    func shouldPresent(webpage: WebPage) -> Bool {
-        // This will take care of the operation if this is running on a iPad
-        return UIDevice.currentDevice().userInterfaceIdiom == .Pad
-    }
-    
-    func present(webpage: WebPage) {
-        if let id = webpage.id, service = self.services[id] {
+
+    func present(webpage: WebPage, withUser user: User?) {
+        if let session = user, service = self.service(webpage, user: session) {
             service.login().then { cookies -> Void in
                 self.presentDetail(DetailViewController.init(service: service, configuration: BrowserHelper.setup(service)))
             }
@@ -54,20 +48,30 @@ extension AppDelegate: WebPagePresenter {
             self.presentDetail(DetailViewController.init(webpage: webpage))
         }
     }
-    
-    func provideServiceFor(webpage: WebPage) -> Service? {
-        if let id = webpage.id, service = self.services[id] {
-            return service
+
+    func presentDetail(controller: UIViewController) {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            self.iPadPresent(controller)
         } else {
-            return nil
+            self.iPhonePresent(controller)
         }
     }
 
-    func presentDetail(controller: UIViewController, from: UIViewController? = nil) {
+    func iPadPresent(controller: UIViewController) {
         if let nav = self.detailController {
             controller.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
             nav.viewControllers = [controller]
+            UIApplication.sharedApplication().sendAction(controller.navigationItem.leftBarButtonItem!.action, to: controller.navigationItem.leftBarButtonItem!.target, from: nil, forEvent: nil)
+        }
+    }
+    
+    func iPhonePresent(controller: UIViewController) {
+        if let master = self.masterController {
+            let navigation = UINavigationController(rootViewController: controller)
+            controller.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cerrar", style: .Plain, target: controller, action: Selector("dismiss"))
+            // navigation.modalTransitionStyle = .CrossDissolve
+            master.presentViewController(navigation, animated: true, completion: nil)
         }
     }
 }
@@ -79,8 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var splitViewController: UISplitViewController?
     var masterController: UITabBarController?
     var detailController: UINavigationController?
-    
-    var services: [String: Service] = [:]
+
     var users: [User] = []
     
     // Sugar getter
@@ -88,6 +91,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         get {
             return UIApplication.sharedApplication().delegate as! AppDelegate
         }
+    }
+
+    func service(webpage: WebPage, user: User) -> Service? {
+        if let id = webpage.id {
+            switch id {
+            case Siding.ID: return Siding(user: user.username, password: user.password)
+            case Labmat.ID: return Labmat(user: user.username, password: user.password)
+            case WebCursos.ID: return WebCursos(user: user.username, password: user.password)
+            case PortalUC.ID: return PortalUC(user: user.username, password: user.password)
+            default: return nil
+            }
+        }
+        return nil
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -115,7 +131,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = self.splitViewController
             
             // Present default detail
-            self.presentDetail(DZNWebViewController.init(URL: NSURL(string: "http://www.uc.cl")))
+            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+                self.iPadPresent(DZNWebViewController.init(URL: NSURL(string: "http://www.uc.cl")))
+            }
         } else {
             // Set the main controller as root view
             self.window!.rootViewController = self.masterController

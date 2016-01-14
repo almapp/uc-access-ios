@@ -11,6 +11,7 @@ import Alamofire
 import PromiseKit
 
 public class Siding: Service {
+    public static let ID = "SIDING"
     private static let URL = "https://intrawww.ing.puc.cl/siding/index.phtml"
 
     private let user: String
