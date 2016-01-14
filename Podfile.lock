@@ -23,6 +23,7 @@ PODS:
   - PromiseKit/UIKit (3.0.0):
     - PromiseKit/CorePromise
   - Refresher (0.5.0)
+  - Static (0.2.0)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -32,11 +33,14 @@ DEPENDENCIES:
   - Kingfisher (~> 1.9)
   - PromiseKit (~> 3.0)
   - Refresher
+  - Static (from `https://github.com/venmo/Static`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
   DZNWebViewController:
     :git: https://github.com/mrpatiwi/DZNWebViewController.git
+  Static:
+    :git: https://github.com/venmo/Static
   SwiftyJSON:
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
@@ -44,6 +48,9 @@ CHECKOUT OPTIONS:
   DZNWebViewController:
     :commit: 3569d4d2095a22c82d17d925301c901ee4ef4a91
     :git: https://github.com/mrpatiwi/DZNWebViewController.git
+  Static:
+    :commit: 0b89f36f33fdd4ae0593830a01e69f5452d9cba3
+    :git: https://github.com/venmo/Static
   SwiftyJSON:
     :commit: 929539eb6a3304eaa9153ca44041a78b85bf2ee5
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
@@ -56,8 +63,9 @@ SPEC CHECKSUMS:
   OMGHTTPURLRQ: 8376dc887d76a5a7e2a67881dc788f917a2f437c
   PromiseKit: 665540a1eb43156446872dcf49ed7dee6ebbe13b
   Refresher: 485f5990e6315add7f3470db5a4ca106451b11d3
+  Static: b48f14dbacee91ac877bdf37c607f7524b1213ee
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 79260142237ffe87b1fb8c49be0526f1499c2f22
+PODFILE CHECKSUM: b5f69374a85fbcf06cc67fbdd4822cbd81f9e3e4
 
 COCOAPODS: 1.0.0.beta.2

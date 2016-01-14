@@ -19,6 +19,7 @@
 		589D3A831C412693001F3641 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589D3A821C412693001F3641 /* Requests.swift */; };
 		58B1F7851C468018004DB11F /* BrowserHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B1F7841C468018004DB11F /* BrowserHelper.swift */; };
 		58B1F7871C46A0CF004DB11F /* WebPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B1F7861C46A0CF004DB11F /* WebPage.swift */; };
+		58CC505D1C47C9C20072C911 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CC505C1C47C9C20072C911 /* InformationViewController.swift */; };
 		58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E24EFA1C4158B5009317C2 /* ServiceCell.swift */; };
 		58E24EFF1C419C33009317C2 /* Labmat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E24EFE1C419C33009317C2 /* Labmat.swift */; };
 		58E7CA561C43E01A00A7279B /* CAS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E7CA551C43E01A00A7279B /* CAS.swift */; };
@@ -57,6 +58,7 @@
 		589D3A821C412693001F3641 /* Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Requests.swift; path = src/Requests.swift; sourceTree = "<group>"; };
 		58B1F7841C468018004DB11F /* BrowserHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrowserHelper.swift; path = src/BrowserHelper.swift; sourceTree = "<group>"; };
 		58B1F7861C46A0CF004DB11F /* WebPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebPage.swift; path = src/WebPage.swift; sourceTree = "<group>"; };
+		58CC505C1C47C9C20072C911 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		58E24EFA1C4158B5009317C2 /* ServiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceCell.swift; sourceTree = "<group>"; };
 		58E24EFE1C419C33009317C2 /* Labmat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Labmat.swift; path = src/services/Labmat.swift; sourceTree = "<group>"; };
 		58E7CA551C43E01A00A7279B /* CAS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CAS.swift; path = src/services/CAS.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				58424D6C1C40367F00E652BD /* AppDelegate.swift */,
 				58424D6E1C40367F00E652BD /* MasterViewController.swift */,
 				58424D701C40367F00E652BD /* DetailViewController.swift */,
+				58CC505C1C47C9C20072C911 /* InformationViewController.swift */,
 				58E24EFA1C4158B5009317C2 /* ServiceCell.swift */,
 				589D3A7E1C4073A9001F3641 /* src */,
 				58424D721C40367F00E652BD /* Main.storyboard */,
@@ -386,6 +389,7 @@
 				58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */,
 				58E7CA5A1C43F5F700A7279B /* WebCursos.swift in Sources */,
 				589D3A831C412693001F3641 /* Requests.swift in Sources */,
+				58CC505D1C47C9C20072C911 /* InformationViewController.swift in Sources */,
 				58E24EFF1C419C33009317C2 /* Labmat.swift in Sources */,
 				58E7CA581C43F4AB00A7279B /* PortalUC.swift in Sources */,
 				58424D6D1C40367F00E652BD /* AppDelegate.swift in Sources */,

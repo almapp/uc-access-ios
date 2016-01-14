@@ -19,13 +19,14 @@
                     <connections>
                         <segue destination="J0g-Er-M1i" kind="relationship" relationship="viewControllers" id="0V5-Um-4k3"/>
                         <segue destination="qN5-y5-P5Z" kind="relationship" relationship="viewControllers" id="cNK-my-e7v"/>
+                        <segue destination="nJq-Hz-H41" kind="relationship" relationship="viewControllers" id="eoU-sc-kCE"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pfl-A9-0D5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-450" y="-845"/>
         </scene>
-        <!--Configuración-->
+        <!--Usuarios-->
         <scene sceneID="fjJ-2T-dkT">
             <objects>
                 <tableViewController id="6aU-ak-6UU" sceneMemberID="viewController">
@@ -48,11 +49,50 @@
                             <outlet property="delegate" destination="6aU-ak-6UU" id="pUn-qo-zc5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Configuración" id="4ye-ED-yqI"/>
+                    <navigationItem key="navigationItem" title="Usuarios" id="4ye-ED-yqI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ROe-wo-faY"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LdV-12-AgR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1090" y="-352"/>
+        </scene>
+        <!--Información-->
+        <scene sceneID="Wkr-56-Rsc">
+            <objects>
+                <tableViewController id="YBY-Qp-d5v" customClass="InformationViewController" customModule="uc_access" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="08t-jb-NYK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="YBY-Qp-d5v" id="3wF-KZ-GF7"/>
+                            <outlet property="delegate" destination="YBY-Qp-d5v" id="jmX-F0-Zg6"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Información" id="86Z-e0-UGk"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J9I-yP-MXu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1090" y="454"/>
+        </scene>
+        <!--Información-->
+        <scene sceneID="aOC-ab-OFN">
+            <objects>
+                <navigationController id="nJq-Hz-H41" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Información" image="Information" id="URV-Qj-Nic"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hKW-k1-Ort">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="YBY-Qp-d5v" kind="relationship" relationship="rootViewController" id="W8j-0W-3pW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rlw-96-63j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="322" y="454"/>
         </scene>
         <!--Usuarios-->
         <scene sceneID="aw8-cF-5NK">
@@ -127,7 +167,7 @@
                                         <rect key="frame" x="0.0" y="93.5" width="600" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0xV-Qx-2yc" id="DhF-l7-3Rk">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="84"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="83.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zw3-Qo-zXi">
@@ -201,6 +241,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Information" width="30" height="30"/>
         <image name="List" width="30" height="30"/>
         <image name="User" width="30" height="30"/>
         <image name="World" width="30" height="30"/>

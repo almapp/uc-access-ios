@@ -57,7 +57,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     required init(coder aDecoder: NSCoder) {
-        self.fetcher = WebPageFetcher(URL: "https://almapp.github.io/uc-access-assets/services.json")
+        self.fetcher = WebPageFetcher(URL: "https://almapp.github.io/uc-access/services.json")
         self.groups = []
         super.init(coder: aDecoder)!
     }
