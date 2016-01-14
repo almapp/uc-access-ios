@@ -88,8 +88,8 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.emptyDataSetDelegate = self;
 
         // Editing
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        self.tableView.allowsSelectionDuringEditing = true
+        // self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        // self.tableView.allowsSelectionDuringEditing = true
         self.tableView.allowsSelection = true
 
         // Actions
