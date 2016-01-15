@@ -16,6 +16,7 @@ target 'uc-access' do
     pod 'Refresher'
     pod 'Static', git: 'https://github.com/venmo/Static'
     pod 'DZNEmptyDataSet'
+    pod 'ChameleonFramework/Swift'
 end
 
 target 'uc-accessTests' do

@@ -8,6 +8,7 @@
 
 import UIKit
 import DZNWebViewController
+import ChameleonFramework
 
 enum UIUserInterfaceIdiom : Int {
     case Unspecified
@@ -140,8 +141,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let initial = WebPage(id: nil, name: "", description: "", URL: "http://www.uc.cl", imageURL: "")
         self.present(initial)
 
+        // Style
+        // let colors = ColorSchemeOf(ColorScheme.Analogous, color: FlatBrown(), isFlatScheme: true)
+        self.window!.tintColor = FlatBrown()
+        // UINavigationBar.appearance().backgroundColor = FlatSand()
+        // UIBarButtonItem.appearance().tintColor = FlatBrownDark()
+        // UITabBar.appearance().tintColor = FlatBrownDark()
+        // UISegmentedControl.appearance().tintColor = FlatBrown()
+        
         self.window!.makeKeyAndVisible()
         return true
+    }
+
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        self.viewCache.removeAll()
     }
 
     func applicationWillResignActive(application: UIApplication) {
