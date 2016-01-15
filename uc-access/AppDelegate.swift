@@ -47,6 +47,7 @@ extension AppDelegate: WebPagePresenter {
             if let cached = self.getCachedView(service, user: session) {
                 self.presentDetail(cached)
             } else {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                 service.login().then { cookies -> Void in
                     let view = DetailViewController.init(service: service, configuration: BrowserHelper.setup(service))
                     self.setCachedView(service, user: session, view: view)
