@@ -38,6 +38,7 @@ class UsersViewController: UITableViewController, DZNEmptyDataSetSource, DZNEmpt
         // Setup table
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "BasicCell")
         self.tableView.allowsMultipleSelectionDuringEditing = false;
+        self.tableView.reloadData()
     }
 
     func addUserButtonPress(sender: UIBarButtonItem) {
@@ -48,7 +49,10 @@ class UsersViewController: UITableViewController, DZNEmptyDataSetSource, DZNEmpt
         self.presentViewController(UsersViewController.addUserController() { user in
             self.users.forEach { $0.selected = false }
             self.users.append(user)
-            self.tableView.reloadData()
+            self.tableView.beginUpdates()
+            self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: self.users.count - 1, inSection: 0)], withRowAnimation: .Automatic)
+            self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+            self.tableView.endUpdates()
             }, animated: true, completion: {})
     }
 
@@ -91,15 +95,15 @@ class UsersViewController: UITableViewController, DZNEmptyDataSetSource, DZNEmpt
     
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.users.count > 0 ? 1 : 0
+        return 1
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Cuentas"
+        return self.users.count > 0 ? "Cuentas" : nil
     }
     
     override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return "🔐 Las contraseñas están bien guardadas"
+        return self.users.count > 0 ? "🔐 Las contraseñas están bien guardadas" : nil
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,9 +123,14 @@ class UsersViewController: UITableViewController, DZNEmptyDataSetSource, DZNEmpt
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == .Delete) {
+        if editingStyle == .Delete {
             self.users.removeAtIndex(indexPath.row)
+            tableView.beginUpdates()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            if self.users.count == 0 {
+                tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+            }
+            tableView.endUpdates()
         }
     }
 
