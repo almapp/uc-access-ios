@@ -7,29 +7,38 @@
 //
 
 import Foundation
+import Alamofire
 import PromiseKit
+import Kanna
 
-public class WebCursos: CAS {
+public class WebCursos: Service {
     public static let ID = "WEBCURSOS"
-
+    private static let URL = "http://webcurso.uc.cl/direct/session"
+    
+    private let user: String
+    private let password: String
+    
     init(user: String, password: String) {
-        let url = "http://webcurso.uc.cl/portal"
-        super.init(user: user, password: password, name: "Web Cursos UC", urls: URLs(
-            basic:  url,
-            logged: "https://sso.uc.cl/cas/login?service=http%3A%2F%2Fwebcurso.uc.cl%2Fsakai-login-tool%2Fcontainer",
-            failed: url
+        self.user = user
+        self.password = password
+        
+        super.init(name: "Web Cursos UC", urls: URLs(
+            basic:  "http://webcurso.uc.cl/portal",
+            logged: "http://webcurso.uc.cl/portal",
+            failed: "http://webcurso.uc.cl/portal"
             ))
+        self.domain = "webcurso.uc.cl"
     }
-
-//    override func login() -> Promise<[NSHTTPCookie]> {
-//        return super.login().then { cookies -> [NSHTTPCookie] in
-//            self.cookies = self.cookies.map { cookie in
-//                var props = cookie.properties
-//                props!["Domain"] = "webcurso.uc.cl"
-//                return NSHTTPCookie(properties: props!)!
-//            }
-//            print(self.cookies)
-//            return self.cookies
-//        }
-//    }
+    
+    override func login() -> Promise<[NSHTTPCookie]> {
+        let params = [
+            "_username": self.user,
+            "_password": self.password,
+        ]
+        return Request.POST(WebCursos.URL, parameters: params)
+            .then { response -> [NSHTTPCookie] in
+                self.addCookies(response.response!)
+                return self.cookies
+            }
+    }
 }

@@ -50,8 +50,8 @@ public class Service {
         return true
     }
     
-    func addCookies(response: NSHTTPURLResponse) {
-        let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(response.allHeaderFields as! [String: String], forURL: NSURL(string: self.domain!)!)
+    func addCookies(response: NSHTTPURLResponse, domain: String? = nil) {
+        let cookies = NSHTTPCookie.cookiesWithResponseHeaderFields(response.allHeaderFields as! [String: String], forURL: NSURL(string: domain ?? self.domain!)!)
         self.cookies.appendContentsOf(cookies)
     }
 
