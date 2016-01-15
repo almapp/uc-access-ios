@@ -17,28 +17,31 @@ enum UIUserInterfaceIdiom : Int {
 
 extension AppDelegate: UISplitViewControllerDelegate {
 
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
-        if topAsDetailController.service == nil {
-            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
-            return true
+    func splitViewController(splitViewController: UISplitViewController, showDetailViewController vc: UIViewController, sender: AnyObject?) -> Bool {
+        if splitViewController.collapsed {
+            let navigation = UINavigationController(rootViewController: vc)
+            vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cerrar", style: .Plain, target: vc, action: Selector("dismiss"))
+            self.masterController!.presentViewController(navigation, animated: true, completion: nil)
+        } else {
+            let navigation = splitViewController.viewControllers[1] as! UINavigationController
+            navigation.viewControllers = [vc]
         }
-        return false
-    }
-
-    func splitViewController(svc: UISplitViewController, shouldHideViewController vc: UIViewController, inOrientation orientation: UIInterfaceOrientation) -> Bool {
+        // We handled it
         return true
     }
-
+    
     func targetDisplayModeForActionInSplitViewController(svc: UISplitViewController) -> UISplitViewControllerDisplayMode {
-        return UISplitViewControllerDisplayMode.Automatic
+        if svc.displayMode == .PrimaryOverlay || svc.displayMode == .PrimaryHidden {
+            return UISplitViewControllerDisplayMode.AllVisible
+        } else {
+            return UISplitViewControllerDisplayMode.PrimaryHidden
+        }
     }
 }
 
 extension AppDelegate: WebPagePresenter {
 
-    func present(webpage: WebPage, withUser user: User?) {
+    func present(webpage: WebPage, withUser user: User? = nil) {
         if let session = user, service = self.service(webpage, user: session) {
             service.login().then { cookies -> Void in
                 self.presentDetail(DetailViewController.init(service: service, configuration: BrowserHelper.setup(service)))
@@ -50,31 +53,8 @@ extension AppDelegate: WebPagePresenter {
     }
 
     func presentDetail(controller: UIViewController) {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            self.iPadPresent(controller)
-        } else {
-            self.iPhonePresent(controller)
-        }
-    }
-
-    func iPadPresent(controller: UIViewController) {
-        if let nav = self.detailController {
-            controller.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
-            controller.navigationItem.leftItemsSupplementBackButton = true
-            nav.viewControllers = [controller]
-
-            // Collapse master view
-            UIApplication.sharedApplication().sendAction(controller.navigationItem.leftBarButtonItem!.action, to: controller.navigationItem.leftBarButtonItem!.target, from: nil, forEvent: nil)
-        }
-    }
-    
-    func iPhonePresent(controller: UIViewController) {
-        if let master = self.masterController {
-            let navigation = UINavigationController(rootViewController: controller)
-            controller.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cerrar", style: .Plain, target: controller, action: Selector("dismiss"))
-            // navigation.modalTransitionStyle = .CrossDissolve
-            master.presentViewController(navigation, animated: true, completion: nil)
-        }
+        controller.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
+        self.splitViewController?.showDetailViewController(controller, sender: self)
     }
 }
 
@@ -120,27 +100,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // This is shared by both devices
         self.masterController = storyboard.instantiateViewControllerWithIdentifier("Master") as? UITabBarController
 
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            // Setup SplitView as root view
-            self.splitViewController = UISplitViewController()
-            
-            // Create the detail view
-            self.detailController = UINavigationController()
-            
-            // Add views to split view controller
-            self.splitViewController?.viewControllers = [self.masterController!, self.detailController!]
-            
-            // Delegate
-            self.splitViewController!.delegate = self
-            
-            self.window?.rootViewController = self.splitViewController
-            
-            // Present default detail
-            self.iPadPresent(DetailViewController.init(webpage: WebPage(id: nil, name: "", description: "", URL: "http://www.uc.cl", imageURL: "")))
-        } else {
-            // Set the main controller as root view
-            self.window!.rootViewController = self.masterController
-        }
+        // Setup SplitView as root view
+        self.splitViewController = UISplitViewController()
+        self.splitViewController!.preferredDisplayMode = .AllVisible
+        
+        // Create the detail view
+        self.detailController = UINavigationController()
+        
+        // Add views to split view controller
+        self.splitViewController?.viewControllers = [self.masterController!, self.detailController!]
+        
+        // Delegate
+        self.splitViewController!.delegate = self
+        
+        self.window?.rootViewController = self.splitViewController
+        
+        // Present default detail
+        let initial = WebPage(id: nil, name: "", description: "", URL: "http://www.uc.cl", imageURL: "")
+        self.present(initial)
+
         self.window!.makeKeyAndVisible()
         return true
     }
