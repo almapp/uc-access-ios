@@ -1,0 +1,14 @@
+Accesos UC forma parte de la segunda versión de Alma Máter UC, que en su versión anterior alcanzó más de 15.000 descargas.
+Ingresa rápidamente a los servicios de la universidad y olvidate de andar ingresando tu clave a cada momento.
+
+Esta aplicación no es oficial y está hecha por la comunidad, para la comunidad.
+
+Puedes solicitar agregar tu sitio web a la aplicación para hacerlo conocido entre los estudiantes.
+
+Ingreso automático a:
+* Portal UC
+* WebCursos UC
+* Siding
+* Labmat
+
+Páginas de la comunidad, partidos políticos y propias de las facultades y sus centros de alumnos.
