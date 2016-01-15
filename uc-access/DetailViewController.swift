@@ -62,6 +62,7 @@ class DetailViewController: DZNWebViewController {
     }
     
     func dismiss(){
+        self.removeObservers()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

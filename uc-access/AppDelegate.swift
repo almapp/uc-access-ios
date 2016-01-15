@@ -43,8 +43,14 @@ extension AppDelegate: WebPagePresenter {
 
     func present(webpage: WebPage, withUser user: User? = nil) {
         if let session = user, service = self.service(webpage, user: session) {
-            service.login().then { cookies -> Void in
-                self.presentDetail(DetailViewController.init(service: service, configuration: BrowserHelper.setup(service)))
+            if let cached = self.getCachedView(service, user: session) {
+                self.presentDetail(cached)
+            } else {
+                service.login().then { cookies -> Void in
+                    let view = DetailViewController.init(service: service, configuration: BrowserHelper.setup(service))
+                    self.setCachedView(service, user: session, view: view)
+                    self.presentDetail(view)
+                }
             }
         } else {
             // Normal webpage
@@ -67,7 +73,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var detailController: UINavigationController?
 
     var users: [User] = []
+    var viewCache: [String: DetailViewController] = [:]
     
+    func setCachedView(service: Service, user: User?, view: DetailViewController) {
+        let key = self.hash(service, user: user)
+        self.viewCache[key] = view
+    }
+    
+    func getCachedView(service: Service, user: User?) -> DetailViewController? {
+        let key = self.hash(service, user: user)
+        return self.viewCache[key]
+    }
+
+    func hash(service: Service, user: User?) -> String {
+        return "\(service.name)-\(user?.username)"
+    }
+
     // Sugar getters
     static var instance: AppDelegate {
         get {

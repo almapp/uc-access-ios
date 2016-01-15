@@ -4,7 +4,7 @@ PODS:
   - DZNWebViewController (3.1)
   - Kanna (1.0.3)
   - KeychainSwift (3.0.10)
-  - Kingfisher (1.9.1)
+  - Kingfisher (1.9.2)
   - OMGHTTPURLRQ (3.0.2):
     - OMGHTTPURLRQ/RQ (= 3.0.2)
   - OMGHTTPURLRQ/FormURLEncode (3.0.2)
@@ -12,17 +12,17 @@ PODS:
     - OMGHTTPURLRQ/FormURLEncode
     - OMGHTTPURLRQ/UserAgent
   - OMGHTTPURLRQ/UserAgent (3.0.2)
-  - PromiseKit (3.0.0):
-    - PromiseKit/Foundation (= 3.0.0)
-    - PromiseKit/QuartzCore (= 3.0.0)
-    - PromiseKit/UIKit (= 3.0.0)
-  - PromiseKit/CorePromise (3.0.0)
-  - PromiseKit/Foundation (3.0.0):
+  - PromiseKit (3.0.1):
+    - PromiseKit/Foundation (= 3.0.1)
+    - PromiseKit/QuartzCore (= 3.0.1)
+    - PromiseKit/UIKit (= 3.0.1)
+  - PromiseKit/CorePromise (3.0.1)
+  - PromiseKit/Foundation (3.0.1):
     - OMGHTTPURLRQ (~> 3.0.0)
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (3.0.0):
+  - PromiseKit/QuartzCore (3.0.1):
     - PromiseKit/CorePromise
-  - PromiseKit/UIKit (3.0.0):
+  - PromiseKit/UIKit (3.0.1):
     - PromiseKit/CorePromise
   - Refresher (0.5.0)
   - Static (0.2.0)
@@ -50,7 +50,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   DZNWebViewController:
-    :commit: 3569d4d2095a22c82d17d925301c901ee4ef4a91
+    :commit: 75f2901fd31d3e75aa528d9337adfc5b6e33fde6
     :git: https://github.com/mrpatiwi/DZNWebViewController.git
   Static:
     :commit: 0b89f36f33fdd4ae0593830a01e69f5452d9cba3
@@ -65,9 +65,9 @@ SPEC CHECKSUMS:
   DZNWebViewController: 77c4fc70a397be476688f5b6a4577727be6d0f88
   Kanna: 10c7f20762846e808ec5716e4191427bd71bf1c2
   KeychainSwift: b3fcc33bd6e12778be79d9be27e0f2e369b8cc4e
-  Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
+  Kingfisher: 7b6df0fa9d211807152c32c46494f9bc08f0e07b
   OMGHTTPURLRQ: 8376dc887d76a5a7e2a67881dc788f917a2f437c
-  PromiseKit: 665540a1eb43156446872dcf49ed7dee6ebbe13b
+  PromiseKit: 19d12914484a15c25a46f72fde38579204a5dac6
   Refresher: 485f5990e6315add7f3470db5a4ca106451b11d3
   Static: b48f14dbacee91ac877bdf37c607f7524b1213ee
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
