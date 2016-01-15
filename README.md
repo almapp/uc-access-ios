@@ -1,6 +1,6 @@
 # UC Access
 
-Native iOS 8+ app written in Swift
+Native iOS 8+ app written in Swift 2
 
 ## Development
 
