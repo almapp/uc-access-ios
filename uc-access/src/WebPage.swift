@@ -13,17 +13,17 @@ import SwiftyJSON
 public class WebPageCategory {
     let name: String
     let detail: String
-    var services: [WebPage]
+    var webpages: [WebPage]
     
-    init(name: String, detail: String, services: [WebPage]) {
+    init(name: String, detail: String, webpages: [WebPage]) {
         self.name = name
         self.detail = detail
-        self.services = services
+        self.webpages = webpages
     }
 
-    var activeServices: [WebPage] {
+    var activeWebpages: [WebPage] {
         get {
-            return self.services.filter { $0.selected }
+            return self.webpages.filter { $0.selected }
         }
     }
 }
@@ -41,7 +41,7 @@ public class WebPageGroup {
 
     var activeCategories: [WebPageCategory] {
         get {
-            return self.categories.filter { $0.activeServices.count > 0 }
+            return self.categories.filter { $0.activeWebpages.count > 0 }
         }
     }
 }
@@ -57,7 +57,7 @@ public class WebPageFetcher {
         return Request.GET(self.URL).then { response -> [WebPageGroup] in
             return JSON(data: response.data!).arrayValue.map { group in
                 WebPageGroup(name: group["name"].stringValue, detail: group["detail"].stringValue, categories: group["categories"].arrayValue.map { category in
-                    WebPageCategory(name: category["name"].stringValue, detail: category["detail"].stringValue, services: category["services"].arrayValue.map { service in
+                    WebPageCategory(name: category["name"].stringValue, detail: category["detail"].stringValue, webpages: category["services"].arrayValue.map { service in
                         WebPage.fromJSON(service)
                         })
                     })

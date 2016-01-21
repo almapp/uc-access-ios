@@ -231,9 +231,9 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.editing {
-            return self.group?.categories[section].services.count ?? 0
+            return self.group?.categories[section].webpages.count ?? 0
         } else {
-            return self.group?.activeCategories[section].activeServices.count ?? 0
+            return self.group?.activeCategories[section].activeWebpages.count ?? 0
         }
     }
 
@@ -259,9 +259,9 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         // Load webpage
         if tableView.editing {
-            cell.webpage = self.group!.categories[indexPath.section].services[indexPath.row]
+            cell.webpage = self.group!.categories[indexPath.section].webpages[indexPath.row]
         } else {
-            cell.webpage = self.group!.activeCategories[indexPath.section].activeServices[indexPath.row]
+            cell.webpage = self.group!.activeCategories[indexPath.section].activeWebpages[indexPath.row]
         }
         cell.editingAccessoryType = (cell.webpage!.selected) ? .Checkmark : .None
         return cell
