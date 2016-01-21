@@ -20,10 +20,16 @@ extension AppDelegate: UISplitViewControllerDelegate {
 
     func splitViewController(splitViewController: UISplitViewController, showDetailViewController vc: UIViewController, sender: AnyObject?) -> Bool {
         if splitViewController.collapsed {
+            // Check if is cached
+            let cached = self.viewCache.filter({ $1 == vc }).count > 0
+            let title = cached ? "Ocultar" : "Cerrar"
+
+            // Present in a navigation controller
             let navigation = UINavigationController(rootViewController: vc)
-            vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cerrar", style: .Plain, target: vc, action: Selector("dismiss"))
+            vc.navigationItem.leftBarButtonItem = UIBarButtonItem(title: title, style: .Plain, target: vc, action: Selector("dismiss"))
             self.masterController!.presentViewController(navigation, animated: true, completion: nil)
         } else {
+            // Replace content in right navigation controller
             let navigation = splitViewController.viewControllers[1] as! UINavigationController
             navigation.viewControllers = [vc]
         }
