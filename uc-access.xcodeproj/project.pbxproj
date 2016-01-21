@@ -28,6 +28,7 @@
 		58E7CA581C43F4AB00A7279B /* PortalUC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E7CA571C43F4AB00A7279B /* PortalUC.swift */; };
 		58E7CA5A1C43F5F700A7279B /* WebCursos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E7CA591C43F5F700A7279B /* WebCursos.swift */; };
 		58EB15B01C4142F600DB10E0 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EB15AF1C4142F600DB10E0 /* Service.swift */; };
+		58FD08061C514B9A000DB852 /* Aleph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FD08051C514B9A000DB852 /* Aleph.swift */; };
 		C46A16A83526437ACF31EF2F /* Pods_uc_accessTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB4E9AF196E1F9D273996BA /* Pods_uc_accessTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		58E7CA571C43F4AB00A7279B /* PortalUC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortalUC.swift; path = src/services/PortalUC.swift; sourceTree = "<group>"; };
 		58E7CA591C43F5F700A7279B /* WebCursos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebCursos.swift; path = src/services/WebCursos.swift; sourceTree = "<group>"; };
 		58EB15AF1C4142F600DB10E0 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = src/Service.swift; sourceTree = "<group>"; };
+		58FD08051C514B9A000DB852 /* Aleph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Aleph.swift; path = src/services/Aleph.swift; sourceTree = "<group>"; };
 		6AB4E9AF196E1F9D273996BA /* Pods_uc_accessTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uc_accessTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8A10BC36839E25A571E9F3 /* Pods-uc-access.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-uc-access.debug.xcconfig"; path = "Pods/Target Support Files/Pods-uc-access/Pods-uc-access.debug.xcconfig"; sourceTree = "<group>"; };
 		D7622CF8DCCEA4F036AEC936 /* Pods_uc_access.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_uc_access.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +184,7 @@
 				58E7CA551C43E01A00A7279B /* CAS.swift */,
 				58E7CA571C43F4AB00A7279B /* PortalUC.swift */,
 				58E7CA591C43F5F700A7279B /* WebCursos.swift */,
+				58FD08051C514B9A000DB852 /* Aleph.swift */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				58E24EFB1C4158B5009317C2 /* ServiceCell.swift in Sources */,
 				58CC505F1C47D9500072C911 /* UsersViewController.swift in Sources */,
 				58E7CA5A1C43F5F700A7279B /* WebCursos.swift in Sources */,
+				58FD08061C514B9A000DB852 /* Aleph.swift in Sources */,
 				589D3A831C412693001F3641 /* Requests.swift in Sources */,
 				58CC505D1C47C9C20072C911 /* InformationViewController.swift in Sources */,
 				58E24EFF1C419C33009317C2 /* Labmat.swift in Sources */,
