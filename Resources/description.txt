@@ -12,3 +12,7 @@ Ingreso automático a:
 * Labmat
 
 Páginas de la comunidad, partidos políticos y propias de las facultades y sus centros de alumnos.
+
+¿Eres desarrollador?
+Esta aplicación es Open Source y su código está disponible bajo licencia GPL-3.0 en:
+https://github.com/almapp/uc-access-ios
