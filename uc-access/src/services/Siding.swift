@@ -38,8 +38,8 @@ public class Siding: Service {
             "cd": "",
         ]
         return Request.POST(Siding.URL, parameters: params)
-            .then { response -> [NSHTTPCookie] in
-                self.addCookies(response.response!)
+            .then { (response, _) -> [NSHTTPCookie] in
+                self.addCookies(response)
                 return self.cookies
             }
     }

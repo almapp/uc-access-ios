@@ -48,11 +48,15 @@ extension AppDelegate: WebPagePresenter {
                 self.presentDetail(cached)
             } else {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-                service.login().then { cookies -> Void in
-                    let view = DetailViewController.init(service: service, configuration: BrowserHelper.setup(service))
-                    self.setCachedView(service, user: session, view: view)
-                    self.presentDetail(view)
-                }
+                service.login()
+                    .then { cookies -> Void in
+                        let view = DetailViewController.init(service: service, configuration: BrowserHelper.setup(service))
+                        self.setCachedView(service, user: session, view: view)
+                        self.presentDetail(view)
+                    }.error { error in
+                        // This is not working
+                        print(error)
+                    }
             }
         } else {
             // Normal webpage
@@ -62,7 +66,7 @@ extension AppDelegate: WebPagePresenter {
 
     func presentDetail(controller: UIViewController) {
         controller.navigationItem.leftBarButtonItem = self.splitViewController!.displayModeButtonItem()
-        self.splitViewController?.showDetailViewController(controller, sender: self)
+        self.splitViewController!.showDetailViewController(controller, sender: self)
     }
 }
 
@@ -139,8 +143,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = self.splitViewController
         
         // Present default detail
-        let initial = WebPage(id: nil, name: "", description: "", URL: "http://www.uc.cl", imageURL: "")
-        self.present(initial)
+        if self.splitViewController!.collapsed {
+            let initial = WebPage(id: nil, name: "", description: "", URL: "http://www.uc.cl", imageURL: "")
+            self.present(initial)
+        }
 
         // Style
         // let colors = ColorSchemeOf(ColorScheme.Analogous, color: FlatBrown(), isFlatScheme: true)

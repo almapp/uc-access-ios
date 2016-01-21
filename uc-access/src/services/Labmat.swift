@@ -37,11 +37,11 @@ public class Labmat: Service {
             "clave": self.password,
         ]
         return Request.GET(self.urls.basic)
-            .then { response -> Promise<Response<String, NSError>> in
-                self.addCookies(response.response!)
+            .then { (response, _) -> Promise<(NSHTTPURLResponse, NSData)> in
+                self.addCookies(response)
                 return Request.POST(Labmat.URL, parameters: params, headers: NSHTTPCookie.requestHeaderFieldsWithCookies(self.cookies))
             }
-            .then { response -> [NSHTTPCookie] in
+            .then { (_, _) -> [NSHTTPCookie] in
                 return self.cookies
             }
     }

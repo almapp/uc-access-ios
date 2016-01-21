@@ -54,8 +54,8 @@ public class WebPageFetcher {
     }
     
     func fetch() -> Promise<[WebPageGroup]> {
-        return Request.GET(self.URL).then { response -> [WebPageGroup] in
-            return JSON(data: response.data!).arrayValue.map { group in
+        return Request.GET(self.URL).then { (response, data) -> [WebPageGroup] in
+            return JSON(data: data).arrayValue.map { group in
                 WebPageGroup(name: group["name"].stringValue, detail: group["detail"].stringValue, categories: group["categories"].arrayValue.map { category in
                     WebPageCategory(name: category["name"].stringValue, detail: category["detail"].stringValue, webpages: category["services"].arrayValue.map { service in
                         WebPage.fromJSON(service)

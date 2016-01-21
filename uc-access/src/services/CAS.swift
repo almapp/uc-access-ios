@@ -31,12 +31,12 @@ public class CAS: Service {
 
     override func login() -> Promise<[NSHTTPCookie]> {
         return Request.GET(CAS.URL)
-                .then { response -> Promise<Response<String, NSError>> in
+                .then { (response, data) -> Promise<(NSHTTPURLResponse, NSData)> in
                     // Add cookies
-                    self.addCookies(response.response!)
-
+                    self.addCookies(response)
+                    
                     // Scrap HTML to find POST parameters
-                    if let html = response.result.value, doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
+                    if let html = String(data: data, encoding: NSUTF8StringEncoding), doc = Kanna.HTML(html: html, encoding: NSUTF8StringEncoding) {
                         if let form = doc.at_css("#fm1") {
                             // Prepare form
                             let params: [String: String] = [
@@ -53,9 +53,9 @@ public class CAS: Service {
                     // Reject if response could not be parsed
                     throw Error.CouldNotLogin()
 
-                }.then { response -> [NSHTTPCookie] in
+                }.then { (response, data) -> [NSHTTPCookie] in
                     // Add cookies
-                    self.addCookies(response.response!)
+                    self.addCookies(response)
                     return self.cookies
             }
     }

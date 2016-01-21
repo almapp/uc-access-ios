@@ -57,15 +57,11 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var user: User? {
         get {
-            return AppDelegate.instance.users.filter { $0.selected }.first ?? AppDelegate.instance.users.first
+            return AppDelegate.instance.users.filter { $0.selected }.first
         }
         set (value) {
-            if let current = value {
-                AppDelegate.instance.users.filter { $0.username != current.username }.forEach { $0.selected = false }
-                current.selected = true
-            } else {
-                AppDelegate.instance.users.forEach { $0.selected = false }
-            }
+            AppDelegate.instance.users.forEach { $0.selected = false }
+            value?.selected = true
         }
     }
 
@@ -116,14 +112,12 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func updateCurrentUser() {
-        if let user = self.user {
-            if user.selected {
-                // Active
-                self.currentUserButton.title = user.username
-            } else {
-                // No account selected
-                self.currentUserButton.title = "Seleccionar cuenta"
-            }
+        if let user = self.user where user.selected {
+            // Current user
+            self.currentUserButton.title = user.username
+        } else if AppDelegate.instance.users.count > 0 {
+            // No account selected
+            self.currentUserButton.title = "Seleccionar cuenta"
         } else {
             // No available accounts
             self.currentUserButton.title = "Iniciar sesión"
@@ -142,14 +136,14 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Buttons
     
     func setCurrentUser(sender: UIBarButtonItem) {
-        if let user = self.user {
-            self.selectUser(user, options: AppDelegate.instance.users, sender: sender)
+        if AppDelegate.instance.users.count > 0 {
+            self.selectUser(self.user, options: AppDelegate.instance.users, sender: sender)
         } else {
             self.createNewUser()
         }
     }
 
-    func selectUser(current: User, options: [User], sender: UIBarButtonItem? = nil) {
+    func selectUser(current: User?, options: [User], sender: UIBarButtonItem? = nil) {
         let actionSheetController: UIAlertController = UIAlertController(title: "Selecciona cuenta", message: "¿Con cuál quieres iniciar sesión?", preferredStyle: .ActionSheet)
         actionSheetController.modalPresentationStyle = .Popover
         

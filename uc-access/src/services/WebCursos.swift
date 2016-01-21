@@ -36,8 +36,8 @@ public class WebCursos: Service {
             "_password": self.password,
         ]
         return Request.POST(WebCursos.URL, parameters: params)
-            .then { response -> [NSHTTPCookie] in
-                self.addCookies(response.response!)
+            .then { (response, _) -> [NSHTTPCookie] in
+                self.addCookies(response)
                 return self.cookies
             }
     }
