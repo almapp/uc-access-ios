@@ -33,7 +33,7 @@ public class Labmat: Service {
     override func login() -> Promise<[NSHTTPCookie]> {
         let params: [String: String] = [
             "accion": "ingreso",
-            "usuario": self.user,
+            "usuario": self.user + "@uc.cl",
             "clave": self.password,
         ]
         return Request.GET(self.urls.basic)
