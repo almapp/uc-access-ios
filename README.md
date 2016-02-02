@@ -2,6 +2,8 @@
 
 Native iOS 8+ app written in Swift 2
 
+[![AppStore][appstore-image]][appstore-url]
+
 ## Development
 
 Clone this repository:
@@ -28,3 +30,6 @@ pod install
 ### Run
 
 Open [`uc-access.xcworkspace`](uc-access.xcworkspace) with XCode and run the app.
+
+[appstore-image]: http://mrpatiwi.github.io/app-badges/appstore.png
+[appstore-url]: https://itunes.apple.com/cl/app/accesos-uc/id1075842018
