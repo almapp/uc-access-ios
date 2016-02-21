@@ -4,7 +4,7 @@ use_frameworks!
 
 target 'uc-access' do
     # Libs
-    pod 'Alamofire', '~> 3.0'
+    pod 'Alamofire', '~> 3.2'
     pod 'SwiftyJSON', git: 'https://github.com/SwiftyJSON/SwiftyJSON.git'
     pod 'PromiseKit', '~> 3.0'
     pod 'Kanna', '~> 1.0.0'
