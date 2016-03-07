@@ -156,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Style
         // let colors = ColorSchemeOf(ColorScheme.Analogous, color: FlatBrown(), isFlatScheme: true)
-        self.window!.tintColor = FlatBrown()
+        self.window!.tintColor = FlatYellowDark()
         // UINavigationBar.appearance().backgroundColor = FlatSand()
         // UIBarButtonItem.appearance().tintColor = FlatBrownDark()
         // UITabBar.appearance().tintColor = FlatBrownDark()

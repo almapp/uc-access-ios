@@ -37,7 +37,7 @@ class InformationViewController: UITableViewController {
                 ], footer: "Resumen: Tus datos son guardados de manera segura en tu dispositivo y no son enviados a ninguna fuente externa, solo a las páginas que explícitamente seleccionas y requieren inicio de sesión. Es de tu responsabilidad tener tu dispositivo con clave"),
             
             Section(header: "Aplicación", rows: [
-                Row(text: "Versión", detailText: "1.0.0"),
+                Row(text: "Versión", detailText: "1.1.0"),
                 Row(text: "Licencia", detailText: "GPL-3.0"),
                 Row(text: "Repositorio", detailText: "Github", selection: { [unowned self] in
                     self.goToURL(REPO)
