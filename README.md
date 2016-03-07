@@ -32,4 +32,4 @@ pod install
 Open [`uc-access.xcworkspace`](uc-access.xcworkspace) with XCode and run the app.
 
 [appstore-image]: http://mrpatiwi.github.io/app-badges/appstore.png
-[appstore-url]: https://itunes.apple.com/cl/app/accesos-uc/id1075842018
+[appstore-url]: https://itunes.apple.com/cl/app/accesos-uc/id1086360418
